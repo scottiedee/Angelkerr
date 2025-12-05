@@ -1,0 +1,221 @@
+.footer {
+  background: var(--color-brown);
+  color: white;
+}
+
+.footer-main {
+  padding: 3rem 0;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 3rem;
+}
+
+/* Brand */
+.footer-brand {
+  padding-right: 1rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.footer-logo-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.footer-logo-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.footer-slogan {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--color-sage-light);
+  margin-bottom: 0.75rem;
+}
+
+.footer-desc {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.footer-social {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-social a {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.footer-social a:hover {
+  background: var(--color-sage);
+  transform: translateY(-2px);
+}
+
+.footer-social svg {
+  width: 18px;
+  height: 18px;
+}
+
+.footer-follow {
+  font-size: 0.85rem;
+  color: var(--color-sage-light);
+  font-weight: 500;
+}
+
+/* Sections */
+.footer-section h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--color-sage-light);
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-nav a {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+  color: var(--color-sage-light);
+}
+
+/* Contact */
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-contact a,
+.footer-contact span {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.footer-contact a:hover {
+  color: var(--color-sage-light);
+}
+
+.footer-contact svg {
+  color: var(--color-sage-light);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Hours */
+.footer-hours {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.booking-hours {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  color: var(--color-sage-light);
+  font-weight: 500;
+}
+
+/* Service Areas */
+.footer-areas {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-areas strong {
+  color: var(--color-sage-light);
+}
+
+/* Bottom */
+.footer-bottom {
+  padding: 1rem 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom p {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0.25rem 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .footer-brand {
+    grid-column: span 2;
+    text-align: center;
+    padding-right: 0;
+  }
+
+  .footer-logo {
+    justify-content: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 500px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-brand {
+    grid-column: span 1;
+  }
+
+  .footer-contact a,
+  .footer-contact span {
+    justify-content: center;
+  }
+}

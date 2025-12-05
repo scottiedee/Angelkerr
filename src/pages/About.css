@@ -1,0 +1,496 @@
+/* Intro Quote */
+.intro-quote {
+  padding: 3rem 0;
+  background: var(--color-warm-white);
+}
+
+.intro-quote blockquote {
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--color-brown);
+  text-align: center;
+  line-height: 1.7;
+  position: relative;
+  padding: 0 2rem;
+}
+
+.intro-quote blockquote::before {
+  content: '"';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  font-size: 4rem;
+  color: var(--color-sage-light);
+  font-family: Georgia, serif;
+}
+
+/* Team Section */
+.team-section {
+  padding: 5rem 0;
+  background: var(--color-cream);
+}
+
+.team-section--alt {
+  background: var(--color-warm-white);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.team-grid--reverse {
+  grid-template-columns: 1.4fr 1fr;
+}
+
+.team-grid--reverse .team-image {
+  order: 2;
+}
+
+.team-grid--reverse .team-content {
+  order: 1;
+}
+
+.team-image {
+  position: relative;
+}
+
+.team-image img {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+}
+
+/* Kerry's photo - show full image without cropping */
+.team-image img.kerry-photo {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.team-badge {
+  position: absolute;
+  bottom: -12px;
+  left: 1.5rem;
+  background: var(--color-sage);
+  color: white;
+  padding: 0.6rem 1.25rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.team-content h2 {
+  font-size: 2rem;
+  color: var(--color-brown);
+  margin-bottom: 0.25rem;
+}
+
+.team-content h2 span {
+  font-size: 1rem;
+  color: var(--color-sage);
+  font-weight: 500;
+}
+
+.team-role {
+  color: var(--color-sage-dark);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.team-content p {
+  color: var(--color-text-light);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.team-content strong {
+  color: var(--color-text);
+}
+
+.team-content em {
+  color: var(--color-sage-dark);
+}
+
+.team-quote {
+  font-style: italic;
+  color: var(--color-sage-dark) !important;
+  padding: 1rem;
+  background: var(--color-sage-light);
+  border-radius: 10px;
+  margin-top: 1.5rem;
+}
+
+.credentials {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+.credentials h4 {
+  font-size: 0.95rem;
+  color: var(--color-brown);
+  margin-bottom: 1rem;
+}
+
+.cred-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.cred-grid span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--color-sage-light);
+  color: var(--color-sage-dark);
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Dogs Section */
+.dogs-section {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, var(--color-brown), var(--color-sage-dark));
+  color: white;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--color-sage-light);
+  margin-bottom: 1rem;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-header p {
+  opacity: 0.9;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.dogs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.dog-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  color: var(--color-text);
+}
+
+.dog-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+
+.dog-info {
+  padding: 1.75rem;
+}
+
+.dog-info h3 {
+  font-size: 1.35rem;
+  color: var(--color-brown);
+  margin-bottom: 0.25rem;
+}
+
+.dog-info > span {
+  display: block;
+  color: var(--color-sage);
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.dog-info p {
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.dog-info strong {
+  color: var(--color-text);
+}
+
+.dog-cert {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-sage) !important;
+  font-weight: 600;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+/* Location Section */
+.location-section {
+  padding: 5rem 0;
+  background: var(--color-cream);
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.location-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.location-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--color-sage);
+  margin-bottom: 1rem;
+}
+
+.location-card h3 {
+  font-size: 1.15rem;
+  color: var(--color-brown);
+  margin-bottom: 1rem;
+}
+
+.location-card address {
+  font-style: normal;
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.location-card address em {
+  color: var(--color-text-light);
+}
+
+.location-card p {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.hours-list > div {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.booking-note {
+  background: var(--color-sage-light);
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--color-sage-dark);
+}
+
+.coverage-headline {
+  font-weight: 600;
+  color: var(--color-sage-dark) !important;
+  font-size: 1rem !important;
+  margin-bottom: 1rem;
+}
+
+.areas-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.areas-tags span {
+  background: var(--color-sage-light);
+  color: var(--color-sage-dark);
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.coverage-note {
+  font-size: 0.8rem !important;
+  font-style: italic;
+}
+
+/* Philosophy Section */
+.philosophy-section {
+  padding: 5rem 0;
+  background: var(--color-warm-white);
+  text-align: center;
+}
+
+.philosophy-section .container {
+  max-width: 700px;
+}
+
+.philosophy-icon {
+  width: 56px;
+  height: 56px;
+  color: var(--color-sage);
+  margin-bottom: 1rem;
+}
+
+.philosophy-section h2 {
+  font-size: 1.75rem;
+  color: var(--color-brown);
+  margin-bottom: 1.5rem;
+}
+
+.philosophy-section p {
+  color: var(--color-text-light);
+  line-height: 1.8;
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+}
+
+.philosophy-section strong {
+  color: var(--color-sage-dark);
+}
+
+/* About CTA */
+.about-cta {
+  padding: 4rem 0;
+  background: var(--color-sage);
+  text-align: center;
+  color: white;
+}
+
+.about-cta h2 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.about-cta > .container > p {
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+}
+
+.cta-contacts {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.book-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  opacity: 0.9;
+  font-size: 0.95rem;
+  transition: opacity 0.3s ease;
+}
+
+.book-link:hover {
+  opacity: 1;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.75rem;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: white;
+  color: var(--color-sage-dark);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.btn-ghost-light {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-ghost-light:hover {
+  background: white;
+  color: var(--color-sage-dark);
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.05rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .location-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .team-grid,
+  .team-grid--reverse {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .team-grid--reverse .team-image,
+  .team-grid--reverse .team-content {
+    order: unset;
+  }
+  
+  .team-image {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .dogs-grid {
+    grid-template-columns: 1fr;
+    max-width: 450px;
+  }
+
+  .cta-contacts {
+    flex-direction: column;
+    align-items: center;
+  }
+}

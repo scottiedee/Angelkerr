@@ -1,0 +1,58 @@
+:root {
+  --color-cream: #FDF8F3;
+  --color-warm-white: #FFFCF8;
+  --color-sage: #7EC8C8;
+  --color-sage-dark: #5AACAC;
+  --color-sage-light: #B5E5E5;
+  --color-terracotta: #C4704B;
+  --color-terracotta-light: #E89B76;
+  --color-brown: #5D4E37;
+  --color-brown-light: #8B7355;
+  --color-text: #3D3428;
+  --color-text-light: #6B5D4D;
+  
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-cream);
+  color: var(--color-text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
