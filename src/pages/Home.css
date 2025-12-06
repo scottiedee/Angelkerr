@@ -540,23 +540,27 @@
     justify-content: center;
   }
   
+  .hero {
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 1rem;
+  }
+  
   .hero-areas {
+    position: static;
+    transform: none;
     font-size: 0.65rem;
     padding: 0.5rem 0.75rem;
     max-width: 95%;
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
-    bottom: 0.75rem;
     line-height: 1.4;
+    margin-top: 1.5rem;
   }
   
   .hero-content {
-    padding-bottom: 4rem;
-  }
-  
-  .hero-actions {
-    margin-bottom: 1rem;
+    padding-bottom: 0;
   }
   
   .trust-bar .container {
