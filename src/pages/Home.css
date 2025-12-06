@@ -413,7 +413,7 @@
 /* TikTok Section */
 .tiktok-section {
   padding: 4rem 0;
-  background: #000;
+  background: linear-gradient(135deg, var(--color-sage) 0%, var(--color-sage-dark) 100%);
   text-align: center;
 }
 
@@ -426,7 +426,7 @@
   width: 48px;
   height: 48px;
   margin-bottom: 1rem;
-  color: #ff0050;
+  color: white;
 }
 
 .tiktok-section h2 {
@@ -436,7 +436,7 @@
 }
 
 .tiktok-section > .container > .tiktok-content > p {
-  opacity: 0.85;
+  opacity: 0.9;
   font-size: 1.05rem;
   margin-bottom: 1.5rem;
   color: #fff;
@@ -446,22 +446,22 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(90deg, #25F4EE, #FE2C55);
-  color: #000;
+  background: white;
+  color: var(--color-sage-dark);
   padding: 0.9rem 2rem;
   border-radius: 50px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1.05rem;
   transition: all 0.3s ease;
 }
 
 .tiktok-btn svg {
-  fill: #000;
+  fill: var(--color-sage-dark);
 }
 
 .tiktok-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(254, 44, 85, 0.4);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
 .tiktok-preview {
