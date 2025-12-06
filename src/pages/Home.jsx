@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Dog, Award, Shield, Heart, Phone, ArrowRight, 
-  MapPin, Star, Users, Calendar, Home as HomeIcon, Mail
+  MapPin, Star, Users, Calendar, Home as HomeIcon, Mail, Instagram
 } from 'lucide-react'
 import './Home.css'
 
@@ -261,6 +261,51 @@ function Home() {
               >
                 <img src={img} alt={`Happy dog ${i + 1}`} />
               </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Instagram Section */}
+      <section className="instagram-section">
+        <div className="container">
+          <motion.div
+            className="instagram-content"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <Instagram className="instagram-icon" />
+            <h2>Follow Us on Instagram</h2>
+            <p>See our latest training sessions, happy pups, and behind-the-scenes moments!</p>
+            <a 
+              href="https://www.instagram.com/angelkerrdogtraining/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="instagram-btn"
+            >
+              <Instagram size={20} />
+              @angelkerrdogtraining
+            </a>
+          </motion.div>
+          <div className="instagram-preview">
+            {images.slice(6, 12).map((img, i) => (
+              <motion.a
+                key={img}
+                href="https://www.instagram.com/angelkerrdogtraining/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="instagram-preview-item"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+              >
+                <img src={img} alt={`Instagram post ${i + 1}`} />
+                <div className="instagram-overlay">
+                  <Instagram size={24} />
+                </div>
+              </motion.a>
             ))}
           </div>
         </div>
