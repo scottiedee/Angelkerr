@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Dog, Award, Shield, Heart, Phone, ArrowRight, 
-  MapPin, Star, Users, Calendar, Home as HomeIcon, Mail, Play
+  MapPin, Star, Users, Calendar, Home as HomeIcon, Mail
 } from 'lucide-react'
 import './Home.css'
 
@@ -292,26 +292,6 @@ function Home() {
               @angelkerrdogtraining
             </a>
           </motion.div>
-          <div className="tiktok-preview">
-            {images.slice(6, 12).map((img, i) => (
-              <motion.a
-                key={img}
-                href="https://www.tiktok.com/@angelkerrdogtraining"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="tiktok-preview-item"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-              >
-                <img src={img} alt={`TikTok video ${i + 1}`} />
-                <div className="tiktok-overlay">
-                  <Play size={32} fill="white" />
-                </div>
-              </motion.a>
-            ))}
-          </div>
         </div>
       </section>
 
