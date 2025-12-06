@@ -541,12 +541,22 @@
   }
   
   .hero-areas {
-    font-size: 0.7rem;
-    padding: 0.5rem 1rem;
-    max-width: 90%;
+    font-size: 0.65rem;
+    padding: 0.5rem 0.75rem;
+    max-width: 95%;
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
+    bottom: 0.75rem;
+    line-height: 1.4;
+  }
+  
+  .hero-content {
+    padding-bottom: 4rem;
+  }
+  
+  .hero-actions {
+    margin-bottom: 1rem;
   }
   
   .trust-bar .container {
