@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Dog, Award, Shield, Heart, Phone, ArrowRight, 
-  MapPin, Star, Users, Calendar, Home as HomeIcon, Mail, Instagram
+  MapPin, Star, Users, Calendar, Home as HomeIcon, Mail, Play
 } from 'lucide-react'
 import './Home.css'
 
@@ -266,44 +266,48 @@ function Home() {
         </div>
       </section>
 
-      {/* Instagram Section */}
-      <section className="instagram-section">
+      {/* TikTok Section */}
+      <section className="tiktok-section">
         <div className="container">
           <motion.div
-            className="instagram-content"
+            className="tiktok-content"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Instagram className="instagram-icon" />
-            <h2>Follow Us on Instagram</h2>
-            <p>See our latest training sessions, happy pups, and behind-the-scenes moments!</p>
+            <svg className="tiktok-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+            </svg>
+            <h2>Follow Us on TikTok</h2>
+            <p>Watch our latest training videos, tips, and adorable pup moments!</p>
             <a 
-              href="https://www.instagram.com/angelkerrdogtraining/" 
+              href="https://www.tiktok.com/@angelkerrdogtraining" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="instagram-btn"
+              className="tiktok-btn"
             >
-              <Instagram size={20} />
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+              </svg>
               @angelkerrdogtraining
             </a>
           </motion.div>
-          <div className="instagram-preview">
+          <div className="tiktok-preview">
             {images.slice(6, 12).map((img, i) => (
               <motion.a
                 key={img}
-                href="https://www.instagram.com/angelkerrdogtraining/"
+                href="https://www.tiktok.com/@angelkerrdogtraining"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="instagram-preview-item"
+                className="tiktok-preview-item"
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
               >
-                <img src={img} alt={`Instagram post ${i + 1}`} />
-                <div className="instagram-overlay">
-                  <Instagram size={24} />
+                <img src={img} alt={`TikTok video ${i + 1}`} />
+                <div className="tiktok-overlay">
+                  <Play size={32} fill="white" />
                 </div>
               </motion.a>
             ))}
