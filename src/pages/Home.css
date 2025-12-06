@@ -228,6 +228,8 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .service-card {
@@ -498,6 +500,8 @@
 @media (max-width: 900px) {
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
+    max-width: 600px;
+    margin: 0 auto;
   }
   
   .about-grid {
