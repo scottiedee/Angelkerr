@@ -226,8 +226,8 @@ function Services() {
       {/* CTA */}
       <section className="services-cta">
         <div className="container">
-          <h2>Not Sure Which Service Is Right?</h2>
-          <p>Book a consultation and we'll help you find the best fit for your dog</p>
+          <h2>Let's Find the Perfect Fit for Your Dog</h2>
+          <p>Book a free consultation and we'll create a personalized training plan together</p>
           <div className="cta-buttons">
             <Link to="/book" className="btn btn-primary btn-lg">
               Book Consultation <ArrowRight size={20} />

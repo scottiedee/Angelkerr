@@ -23,7 +23,7 @@ function About() {
             animate={{ opacity: 1, y: 0 }}
           >
             <h1>About Us</h1>
-            <p>Meet the team behind AngelKerr Dog Training & Pet Services</p>
+            <p>Meet the passionate team dedicated to helping you and your dog thrive</p>
           </motion.div>
         </div>
       </section>
@@ -365,8 +365,8 @@ function About() {
       {/* Contact CTA */}
       <section className="about-cta">
         <div className="container">
-          <h2>Ready to Start Your Dog Training Journey?</h2>
-          <p>Call or email us today!</p>
+          <h2>Ready to Transform Your Dog's Behavior?</h2>
+          <p>We'd love to hear from you—let's talk about your dog!</p>
           <div className="cta-contacts">
             <a href="tel:647-528-9442" className="btn btn-primary btn-lg">
               <Phone size={20} /> 647-528-9442

@@ -9,11 +9,11 @@ import { db } from '../firebase'
 import './Book.css'
 
 const services = [
-  { id: 'consultation', name: 'Initial Consultation', duration: '30 min', desc: 'Free consultation to discuss your needs' },
-  { id: 'group-training', name: 'Group Training', duration: '1 hour', desc: 'Group obedience classes' },
-  { id: '1on1', name: '1-on-1 Training', duration: '1 hour', desc: 'Private training session' },
-  { id: 'board-train', name: 'Board & Train Consultation', duration: '45 min', desc: 'Discuss board & train options' },
-  { id: 'boarding', name: 'Boarding Inquiry', duration: '30 min', desc: 'Plan your dog\'s stay' },
+  { id: 'consultation', name: 'Initial Consultation', duration: '30 min', desc: 'Free meet & greet to discuss your dog\'s needs' },
+  { id: 'group-training', name: 'Group Training', duration: '1 hour', desc: 'Fun, social obedience classes with other pups' },
+  { id: '1on1', name: '1-on-1 Private Training', duration: '1 hour', desc: 'Personalized attention for you and your dog' },
+  { id: 'board-train', name: 'Board & Train Consultation', duration: '45 min', desc: 'Explore our intensive live-in training program' },
+  { id: 'boarding', name: 'Boarding Inquiry', duration: '30 min', desc: 'Plan a comfortable stay for your furry friend' },
 ]
 
 const timeSlots = [
@@ -180,8 +180,8 @@ function Book() {
             animate={{ opacity: 1, scale: 1 }}
           >
             <CheckCircle className="confirmation-icon" />
-            <h2>Booking Request Received!</h2>
-            <p>Thank you, {formData.firstName}! We've received your booking request for:</p>
+            <h2>We Can't Wait to Meet You!</h2>
+            <p>Thank you, {formData.firstName}! Your consultation request has been received:</p>
             <div className="confirmation-details">
               <p><strong>Service:</strong> {services.find(s => s.id === selectedService)?.name}</p>
               <p><strong>Date:</strong> {formatSelectedDate()}</p>
@@ -207,7 +207,7 @@ function Book() {
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
             <h1>Book a Consultation</h1>
-            <p>Schedule your appointment at least 1 week in advance</p>
+            <p>Let's discuss your dog's needs and create a training plan together</p>
           </motion.div>
         </div>
       </section>
@@ -421,14 +421,6 @@ function Book() {
               </div>
             </motion.div>
 
-            {/* Debug info - remove later */}
-            <div style={{background: '#f0f0f0', padding: '1rem', borderRadius: '8px', marginBottom: '1rem', fontSize: '0.9rem'}}>
-              <strong>Debug:</strong><br/>
-              Service: {selectedService || 'NOT SELECTED'}<br/>
-              Date: {selectedDate ? selectedDate.toDateString() : 'NOT SELECTED'}<br/>
-              Time: {selectedTime || 'NOT SELECTED'}
-            </div>
-
             {error && (
               <div className="error-message">
                 <AlertCircle size={18} /> {error}
@@ -455,8 +447,8 @@ function Book() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <h3>Prefer to talk?</h3>
-            <p>Call us directly to book or ask questions</p>
+            <h3>Prefer to Chat?</h3>
+            <p>We're happy to answer your questions directly!</p>
             <div className="contact-options">
               <a href="tel:647-528-9442">
                 <Phone size={18} /> 647-528-9442
