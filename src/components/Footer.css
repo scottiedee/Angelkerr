@@ -156,10 +156,31 @@
   font-weight: 500;
 }
 
+/* Map */
+.footer-map {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.footer-map iframe {
+  border-radius: 12px;
+  filter: grayscale(20%);
+  transition: filter 0.3s ease;
+}
+
+.footer-map iframe:hover {
+  filter: grayscale(0%);
+}
+
 /* Service Areas */
 .footer-areas {
   background: rgba(0, 0, 0, 0.2);
   padding: 1rem 2rem;
+  margin-top: 1.5rem;
   text-align: center;
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.7);

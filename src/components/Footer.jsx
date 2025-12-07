@@ -86,6 +86,20 @@ function Footer() {
         </div>
       </div>
 
+      {/* Map */}
+      <div className="footer-map">
+        <iframe
+          src="https://maps.google.com/maps?q=122+Ellesmere+Rd,+Scarborough,+ON+M1R+4C4&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          width="100%"
+          height="180"
+          style={{ border: 0 }}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="AngelKerr Location"
+        />
+      </div>
+
       {/* Service Areas */}
       <div className="footer-areas">
         <strong>Service Areas:</strong> Scarborough • Newmarket • Stouffville • Markham • East Gwillimbury • Georgina • Aurora • Keswick • Sutton • Beaverton
