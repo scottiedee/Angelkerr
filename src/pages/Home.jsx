@@ -357,21 +357,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Google Reviews */}
-      <section className="reviews-section">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2>What Our Clients Say</h2>
-            <p className="reviews-subtitle">Real reviews from real dog owners</p>
-          </motion.div>
-          <div className="elfsight-app-6c66bc94-2d91-458d-84ae-a3aa28b492eb" data-elfsight-app-lazy></div>
-        </div>
-      </section>
-
       {/* Gallery */}
       <section className="gallery">
         <div className="container">
@@ -452,6 +437,21 @@ function Home() {
               </div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Google Reviews */}
+      <section className="reviews-section">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2>What Our Clients Say</h2>
+            <p className="reviews-subtitle">Real reviews from real dog owners</p>
+          </motion.div>
+          <div className="elfsight-app-6c66bc94-2d91-458d-84ae-a3aa28b492eb" data-elfsight-app-lazy></div>
         </div>
       </section>
 
