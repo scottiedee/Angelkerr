@@ -353,6 +353,11 @@ function Home() {
                 <source src="/d5d54272-79e9-44df-a19a-02efb8f56343.mp4" type="video/mp4" />
               </video>
             </div>
+            <div className="video-item">
+              <video autoPlay muted loop playsInline>
+                <source src="/4c670d2a970140bebe672fb2c7772f9b.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
         </div>
       </section>
