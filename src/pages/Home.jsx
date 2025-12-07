@@ -98,6 +98,22 @@ function Home() {
               <Phone size={18} /> 647-528-9442
             </a>
           </motion.div>
+
+          <motion.div 
+            className="hero-certs"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+          >
+            <a href="https://www.animalbehaviorcollege.com/" target="_blank" rel="noopener noreferrer" className="hero-cert">
+              <span className="hero-cert-abbr">ABC</span>
+              <span className="hero-cert-text">Certified</span>
+            </a>
+            <a href="https://www.ccpdt.org/" target="_blank" rel="noopener noreferrer" className="hero-cert">
+              <span className="hero-cert-abbr">CCPDT-KA</span>
+              <span className="hero-cert-text">Certified</span>
+            </a>
+          </motion.div>
         </div>
 
         <motion.div 
@@ -109,46 +125,6 @@ function Home() {
           <MapPin size={16} />
           <span><strong>NEW SERVICE AREAS:</strong> East Gwillimbury • Georgina • Aurora • Keswick • Sutton</span>
         </motion.div>
-      </section>
-
-      {/* Certifications */}
-      <section className="certifications-section">
-        <div className="container">
-          <motion.div 
-            className="certifications-content"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <p className="certifications-label">Certified & Accredited By</p>
-            <div className="certifications-logos">
-              <a 
-                href="https://www.animalbehaviorcollege.com/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="cert-logo"
-              >
-                <div className="cert-badge cert-badge--abc">
-                  <span className="cert-abbr">ABC</span>
-                  <span className="cert-name">Animal Behaviour College</span>
-                  <span className="cert-year">Certified 2015</span>
-                </div>
-              </a>
-              <a 
-                href="https://www.ccpdt.org/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="cert-logo"
-              >
-                <div className="cert-badge cert-badge--ccpdt">
-                  <span className="cert-abbr">CCPDT-KA</span>
-                  <span className="cert-name">Certification Council for Professional Dog Trainers</span>
-                  <span className="cert-year">Certified 2021</span>
-                </div>
-              </a>
-            </div>
-          </motion.div>
-        </div>
       </section>
 
       {/* Trust Bar */}
