@@ -197,47 +197,129 @@ function Home() {
         </div>
       </section>
 
-      {/* About Preview */}
-      <section className="about-preview">
+      {/* Trainer Bio Section */}
+      <section className="trainer-bio">
         <div className="container">
-          <div className="about-grid">
+          <motion.div 
+            className="bio-header"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2>Meet Your Trainers</h2>
+            <p>Certified professionals dedicated to positive reinforcement training</p>
+          </motion.div>
+
+          <div className="bio-grid">
+            {/* Angel */}
             <motion.div 
-              className="about-images"
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              className="bio-card bio-card--featured"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <img src="/images/angel.avif" alt="Angel with dog" className="about-img-main" />
-              <img src="/images/kerry.avif" alt="Kerry with dog" className="about-img-secondary" />
+              <div className="bio-image">
+                <img src="/images/angel.avif" alt="Angel Gonzalez - Lead Trainer" />
+                <span className="bio-role">Lead Trainer</span>
+              </div>
+              <div className="bio-info">
+                <h3>Angel Gonzalez <span>CPDT-KA</span></h3>
+                
+                <div className="bio-certs">
+                  <span className="bio-cert"><Award size={14} /> CCPDT-KA Certified</span>
+                  <span className="bio-cert"><Award size={14} /> ABC Certified</span>
+                </div>
+
+                <div className="bio-stats">
+                  <div className="bio-stat">
+                    <span className="bio-stat-num">10+</span>
+                    <span className="bio-stat-label">Years Training</span>
+                  </div>
+                  <div className="bio-stat">
+                    <span className="bio-stat-num">500+</span>
+                    <span className="bio-stat-label">Dogs Trained</span>
+                  </div>
+                  <div className="bio-stat">
+                    <span className="bio-stat-num">7</span>
+                    <span className="bio-stat-label">Years at Global Pet Foods</span>
+                  </div>
+                </div>
+
+                <p className="bio-text">
+                  Specializing in <strong>separation anxiety</strong>, <strong>aggression</strong>, 
+                  and <strong>leash reactivity</strong>. Angel's journey began with his own Great Pyrenees, 
+                  Isis, whose behavioral challenges sparked his passion for helping families keep their dogs.
+                </p>
+
+                <div className="bio-specialties">
+                  <span>Separation Anxiety</span>
+                  <span>Aggression</span>
+                  <span>Leash Reactivity</span>
+                  <span>Resource Guarding</span>
+                  <span>Puppy Training</span>
+                </div>
+              </div>
             </motion.div>
 
+            {/* Kerry */}
             <motion.div 
-              className="about-content"
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              className="bio-card"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
             >
-              <h2>Meet Angel & Kerry</h2>
-              <p>
-                <strong>Angel Gonzalez (CPDT-KA)</strong> has been training dogs since 2014 using 
-                positive reinforcement methods. After a decade as a camera assistant, he dedicated 
-                himself to helping families with their dogs. Certified by the CCPDT and specializing 
-                in separation anxiety and aggression.
-              </p>
-              <p>
-                <strong>Kerry Gonzalez</strong> co-owns the business with 20+ years of pet care 
-                experience and a Vet Assistant certification. Together with their coach dogs 
-                Luna (CGN certified pug) and Leo (Australian Shepherd in training), they create 
-                a welcoming environment for every pup.
-              </p>
-              <p className="about-quote">
-                "So put that dog whistle down, and give me a call today!"
-              </p>
-              <Link to="/about" className="btn btn-outline">
-                Learn More About Us <ArrowRight size={18} />
-              </Link>
+              <div className="bio-image">
+                <img src="/images/kerry.avif" alt="Kerry Gonzalez - Co-Owner" />
+                <span className="bio-role">Co-Owner</span>
+              </div>
+              <div className="bio-info">
+                <h3>Kerry Gonzalez</h3>
+                
+                <div className="bio-certs">
+                  <span className="bio-cert"><Award size={14} /> Vet Assistant Certified</span>
+                  <span className="bio-cert"><Heart size={14} /> Pet First Aid</span>
+                </div>
+
+                <div className="bio-stats">
+                  <div className="bio-stat">
+                    <span className="bio-stat-num">20+</span>
+                    <span className="bio-stat-label">Years Pet Care</span>
+                  </div>
+                </div>
+
+                <p className="bio-text">
+                  Kerry handles administration, pet sitting, and dog walking with a nurturing spirit 
+                  cultivated over two decades. Currently pursuing her CCPDT certification to expand 
+                  her training expertise.
+                </p>
+              </div>
             </motion.div>
           </div>
+
+          {/* Philosophy */}
+          <motion.div 
+            className="bio-philosophy"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="philosophy-content">
+              <h4>Our Training Philosophy</h4>
+              <p>
+                <strong>Training is not about tough love or who is top dog.</strong> Our methods are 
+                100% positive reinforcement based—your dog earns rewards, never avoids punishment. 
+                We follow CCPDT-KA standards because science-based training creates lasting results 
+                and strengthens the bond between you and your dog.
+              </p>
+              <blockquote>
+                "So put that dog whistle down, and give me a call today!"
+              </blockquote>
+            </div>
+            <Link to="/about" className="btn btn-primary">
+              Learn More About Us <ArrowRight size={18} />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
