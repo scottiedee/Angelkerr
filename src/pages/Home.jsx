@@ -399,19 +399,6 @@ function Home() {
                 <p>CCPDT-KA certified & ABC accredited. Science-based positive reinforcement methods.</p>
               </div>
             </motion.div>
-            <motion.div 
-              className="location-card"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              <Dog />
-              <div>
-                <h3>All Breeds & Ages Welcome</h3>
-                <p>Puppy training, adult dog obedience, behaviour modification & aggression rehabilitation.</p>
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>
