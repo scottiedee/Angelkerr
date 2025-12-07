@@ -357,27 +357,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="gallery">
-        <div className="container">
-          <h2>Happy Clients</h2>
-          <div className="gallery-grid">
-            {images.slice(0, 6).map((img, i) => (
-              <motion.div
-                key={img}
-                className="gallery-item"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-              >
-                <img src={img} alt={`Happy dog ${i + 1}`} />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* TikTok Section */}
       <section className="tiktok-section">
         <div className="container">
