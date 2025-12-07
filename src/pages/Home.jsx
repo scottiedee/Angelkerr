@@ -7,6 +7,16 @@ import {
 } from 'lucide-react'
 import './Home.css'
 
+// Load Elfsight script for Google Reviews
+const loadElfsight = () => {
+  if (!document.querySelector('script[src="https://static.elfsight.com/platform/platform.js"]')) {
+    const script = document.createElement('script')
+    script.src = 'https://static.elfsight.com/platform/platform.js'
+    script.async = true
+    document.body.appendChild(script)
+  }
+}
+
 const allImages = [
   '/images/IMG_0437.jpg', '/images/IMG_0441.jpg', '/images/IMG_0546.jpg',
   '/images/IMG_0547.jpg', '/images/IMG_1461.jpg', '/images/IMG_1482.jpg',
@@ -27,6 +37,11 @@ function Home() {
     const timer = setInterval(() => setHeroIndex(i => (i + 1) % images.length), 5000)
     return () => clearInterval(timer)
   }, [images.length])
+
+  // Load Elfsight for Google Reviews
+  useEffect(() => {
+    loadElfsight()
+  }, [])
 
   return (
     <div className="home">
@@ -339,6 +354,21 @@ function Home() {
               </video>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Google Reviews */}
+      <section className="reviews-section">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2>What Our Clients Say</h2>
+            <p className="reviews-subtitle">Real reviews from real dog owners</p>
+          </motion.div>
+          <div className="elfsight-app-6c66bc94-2d91-458d-84ae-a3aa28b492eb" data-elfsight-app-lazy></div>
         </div>
       </section>
 

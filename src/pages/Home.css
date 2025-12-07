@@ -502,6 +502,25 @@
   margin-top: 0.5rem;
 }
 
+/* Reviews Section */
+.reviews-section {
+  padding: 4rem 0;
+  background: var(--color-warm-white);
+  text-align: center;
+}
+
+.reviews-section h2 {
+  font-size: 1.75rem;
+  color: var(--color-brown);
+  margin-bottom: 0.5rem;
+}
+
+.reviews-subtitle {
+  color: var(--color-text-light);
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+}
+
 /* Video Gallery */
 .video-gallery {
   padding: 5rem 0;
