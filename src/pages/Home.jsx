@@ -111,13 +111,52 @@ function Home() {
         </motion.div>
       </section>
 
+      {/* Certifications */}
+      <section className="certifications-section">
+        <div className="container">
+          <motion.div 
+            className="certifications-content"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <p className="certifications-label">Certified & Accredited By</p>
+            <div className="certifications-logos">
+              <a 
+                href="https://www.animalbehaviorcollege.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="cert-logo"
+              >
+                <div className="cert-badge cert-badge--abc">
+                  <span className="cert-abbr">ABC</span>
+                  <span className="cert-name">Animal Behaviour College</span>
+                  <span className="cert-year">Certified 2015</span>
+                </div>
+              </a>
+              <a 
+                href="https://www.ccpdt.org/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="cert-logo"
+              >
+                <div className="cert-badge cert-badge--ccpdt">
+                  <span className="cert-abbr">CCPDT-KA</span>
+                  <span className="cert-name">Certification Council for Professional Dog Trainers</span>
+                  <span className="cert-year">Certified 2021</span>
+                </div>
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Trust Bar */}
       <section className="trust-bar">
         <div className="container">
           {[
-            { icon: Award, text: 'CCPDT-KA Certified' },
             { icon: Shield, text: 'Bonded & Insured' },
-            { icon: Heart, text: 'Pet First Aid' },
+            { icon: Heart, text: 'Pet First Aid Certified' },
             { icon: Star, text: 'Training Since 2014' },
           ].map((item, i) => (
             <motion.div 

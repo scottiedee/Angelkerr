@@ -174,6 +174,85 @@
   padding: 0 2rem;
 }
 
+/* Certifications Section */
+.certifications-section {
+  background: var(--color-warm-white);
+  padding: 2.5rem 0;
+  text-align: center;
+}
+
+.certifications-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-text-light);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.certifications-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.cert-logo {
+  text-decoration: none;
+}
+
+.cert-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  border-radius: 12px;
+  border: 3px solid;
+  min-width: 200px;
+  transition: all 0.3s ease;
+}
+
+.cert-badge:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.cert-badge--abc {
+  background: linear-gradient(135deg, #1a365d, #2c5282);
+  border-color: #4299e1;
+  color: white;
+}
+
+.cert-badge--ccpdt {
+  background: linear-gradient(135deg, #744210, #975a16);
+  border-color: #d69e2e;
+  color: white;
+}
+
+.cert-abbr {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 0.25rem;
+}
+
+.cert-name {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+  max-width: 180px;
+  line-height: 1.3;
+}
+
+.cert-year {
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+  font-weight: 500;
+}
+
 /* Trust Bar */
 .trust-bar {
   background: var(--color-sage);
@@ -685,5 +764,19 @@
   
   .tiktok-section h2 {
     font-size: 1.5rem;
+  }
+  
+  .certifications-logos {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .cert-badge {
+    min-width: 180px;
+    padding: 1rem 1.5rem;
+  }
+  
+  .cert-abbr {
+    font-size: 1.25rem;
   }
 }
