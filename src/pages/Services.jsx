@@ -22,6 +22,7 @@ const services = [
     title: 'Group Walks',
     subtitle: 'Your pup will love our walks—find out why!',
     price: 'Contact for pricing',
+    requiresConsultation: true,
     description: 'Socialization and exercise with other friendly dogs in a supervised group setting. Our walks provide mental stimulation, physical exercise, and the opportunity for your dog to make friends.',
     features: [
       'Small group sizes for safety',
@@ -37,6 +38,7 @@ const services = [
     icon: Users,
     title: 'Group Training',
     price: 'Contact for pricing',
+    requiresConsultation: true,
     description: 'Learn alongside other dog owners in a supportive environment. Group classes offer real-world distractions that help your dog generalize their training while building a community.',
     features: [
       'Basic obedience commands',
@@ -51,8 +53,10 @@ const services = [
     id: '1on1',
     icon: Star,
     title: '1-on-1 Private Training',
+    subtitle: 'Behaviour Program',
     price: 'Contact for pricing',
     featured: true,
+    requiresConsultation: true,
     description: 'Personalized training tailored to your dog\'s specific needs. Ideal for behavioral issues, anxious dogs, or owners wanting focused attention. Available at our facility or in your home throughout the GTA.',
     features: [
       'Customized training plan',
@@ -71,6 +75,7 @@ const services = [
     title: 'Board & Train',
     subtitle: 'Intensive training while your dog stays with us',
     price: 'Contact for pricing',
+    requiresConsultation: true,
     description: 'Your dog stays in our home environment (not a kennel) and receives multiple daily training sessions with consistent reinforcement. This program was developed based on Angel\'s experience and refined with Luna, his first training challenge.',
     features: [
       'Multiple daily training sessions',
@@ -88,6 +93,7 @@ const services = [
     title: 'Pet Boarding',
     subtitle: 'Enjoy your vacation and leave your dog safely with us',
     price: 'Contact for pricing',
+    requiresConsultation: true,
     description: 'Safe, loving care when you need to travel. Your dog stays in our home with professional trainers on-site—not a kennel environment. Kerry\'s 20+ years of pet care experience ensures your pet is pampered like family.',
     features: [
       'Home environment (not kennel)',
@@ -154,7 +160,7 @@ function Services() {
               </ul>
 
               <Link to="/book" className="btn btn-primary">
-                Book Consultation <ArrowRight size={18} />
+                {service.requiresConsultation ? 'Request a Consultation First' : 'Book Now'} <ArrowRight size={18} />
               </Link>
             </motion.div>
           ))}
