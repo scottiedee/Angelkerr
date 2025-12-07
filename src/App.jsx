@@ -25,7 +25,6 @@ function AppContent() {
         </Routes>
       </main>
       {!isAdminPage && <Footer />}
-      {!isAdminPage && <LeadPopup />}
     </div>
   )
 }
