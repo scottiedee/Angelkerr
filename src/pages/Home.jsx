@@ -386,6 +386,32 @@ function Home() {
                 <p>Scarborough to Georgina and beyond! In-home & facility training available.</p>
               </div>
             </motion.div>
+            <motion.div 
+              className="location-card"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <Award />
+              <div>
+                <h3>Certified Professional Trainers</h3>
+                <p>CCPDT-KA certified & ABC accredited. Science-based positive reinforcement methods.</p>
+              </div>
+            </motion.div>
+            <motion.div 
+              className="location-card"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
+              <Dog />
+              <div>
+                <h3>All Breeds & Ages Welcome</h3>
+                <p>Puppy training, adult dog obedience, behaviour modification & aggression rehabilitation.</p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
