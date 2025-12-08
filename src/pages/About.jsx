@@ -7,8 +7,8 @@ import './About.css'
 const images = {
   angel: '/images/angel.avif',
   kerry: '/images/kerry.avif',
-  luna: '/images/IMG_1461.jpg',
-  leo: '/images/IMG_1657.jpg',
+  luna: '/images/IMG_8129.jpg',
+  leo: '/images/IMG_2257.jpg',
 }
 
 function About() {
@@ -133,7 +133,7 @@ function About() {
               viewport={{ once: true }}
             >
               <img src={images.kerry} alt="Kerry Gonzalez" className="kerry-photo" />
-              <span className="team-badge">Co-Owner</span>
+              <span className="team-badge">Trainer • Co-Owner</span>
             </motion.div>
 
             <motion.div 
@@ -143,7 +143,7 @@ function About() {
               viewport={{ once: true }}
             >
               <h2>Kerry Gonzalez</h2>
-              <p className="team-role">Pet Sitter • Dog Walker • Administrator • Owner</p>
+              <p className="team-role">Trainer • Board & Train • Boarding • Pet Sitter • Dog Walker • Owner</p>
               
               <p>
                 Pets are Kerry's life! She has had this deep rooted passion for all pets for 
@@ -175,8 +175,6 @@ function About() {
 
               <div className="credentials">
                 <div className="cred-grid">
-                  <span><CheckCircle size={16} /> Vet Assistant Certified</span>
-                  <span><CheckCircle size={16} /> Pet First Aid Certified</span>
                   <span><CheckCircle size={16} /> 20+ Years Pet Care Experience</span>
                   <span><CheckCircle size={16} /> Bonded & Insured</span>
                 </div>

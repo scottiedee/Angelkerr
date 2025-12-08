@@ -175,15 +175,19 @@
   margin-bottom: 1rem;
 }
 
-.section-header h2 {
+.dogs-section .section-header h2 {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.section-header p {
-  opacity: 0.9;
+.dogs-section .section-header p {
   max-width: 500px;
   margin: 0 auto;
+  color: #ffffff !important;
+  opacity: 1;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 .dogs-grid {
