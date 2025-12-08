@@ -18,12 +18,10 @@ const loadElfsight = () => {
 }
 
 const allImages = [
-  '/images/IMG_0437.jpg', '/images/IMG_0441.jpg', '/images/IMG_0546.jpg',
-  '/images/IMG_0547.jpg', '/images/IMG_1461.jpg', '/images/IMG_1482.jpg',
-  '/images/IMG_1657.jpg', '/images/IMG_1660.jpg', '/images/IMG_1673.jpg',
-  '/images/angel.avif', '/images/IMG_2259.jpg', '/images/IMG_2261.jpg',
-  '/images/IMG_2279.jpg', '/images/IMG_3881.jpg', '/images/IMG_4687.jpg',
-  '/images/IMG_5178.jpg', '/images/IMG_6214.jpg', '/images/IMG_8129.jpg',
+  '/images/IMG_0437.jpg', '/images/IMG_0441.jpg', '/images/IMG_1461.jpg',
+  '/images/IMG_1660.jpg', '/images/IMG_1673.jpg', '/images/IMG_2257.jpg',
+  '/images/IMG_2259.jpg', '/images/IMG_2261.jpg', '/images/IMG_2279.jpg',
+  '/images/IMG_3881.jpg', '/images/IMG_4687.jpg', '/images/IMG_6214.jpg',
   '/images/IMG_9801.jpg', '/images/IMG_9826.jpg',
 ]
 
@@ -304,9 +302,8 @@ function Home() {
                 </div>
 
                 <p className="bio-text">
-                  Kerry handles administration, pet sitting, and dog walking with a nurturing spirit 
-                  cultivated over two decades. Currently pursuing her CCPDT certification to expand 
-                  her training expertise.
+                  Kerry has been actively professionally training for 5 years, specializing in our 
+                  Board and Train program. She aspires to become a service dog trainer.
                 </p>
               </div>
             </motion.div>

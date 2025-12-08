@@ -136,6 +136,25 @@
   flex-shrink: 0;
 }
 
+.service-highlight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--color-sage-light) 0%, var(--color-cream) 100%);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  color: var(--color-sage-dark);
+  font-weight: 600;
+  font-style: italic;
+  border-left: 4px solid var(--color-sage);
+}
+
+.service-highlight svg {
+  color: var(--color-sage);
+  flex-shrink: 0;
+}
+
 /* Coverage Section */
 .coverage-section {
   padding: 4rem 0;

@@ -55,7 +55,6 @@ const services = [
     title: '1-on-1 Private Training',
     subtitle: 'Behaviour Program',
     price: 'Contact for pricing',
-    featured: true,
     requiresConsultation: true,
     description: 'Personalized training tailored to your dog\'s specific needs. Ideal for behavioral issues, anxious dogs, or owners wanting focused attention. Available at our facility or in your home throughout the GTA.',
     features: [
@@ -76,8 +75,12 @@ const services = [
     subtitle: 'Intensive training while your dog stays with us',
     price: 'Contact for pricing',
     requiresConsultation: true,
-    description: 'Your dog stays in our home environment (not a kennel) and receives multiple daily training sessions with consistent reinforcement. This program was developed based on Angel\'s experience and refined with Luna, his first training challenge.',
+    featured: true,
+    description: 'Your dog stays in our home environment (not a kennel) and receives multiple daily training sessions with consistent reinforcement. This program was developed based on Angel\'s experience and refined with Luna, his first training challenge. Kerry specializes in this program with 5 years of professional training experience.',
     features: [
+      'Detailed tailored treatment plans',
+      'Report card with strengths & weaknesses',
+      'Custom training tutorial video series featuring your dog',
       'Multiple daily training sessions',
       'Home environment boarding',
       'Consistent reinforcement',
@@ -85,7 +88,8 @@ const services = [
       'Owner training at pickup',
       'Follow-up support included',
       'Faster results than weekly sessions'
-    ]
+    ],
+    highlight: 'Superb if you\'re a visual learner!'
   },
   {
     id: 'boarding',
@@ -158,6 +162,12 @@ function Services() {
                   </li>
                 ))}
               </ul>
+
+              {service.highlight && (
+                <p className="service-highlight">
+                  <Star size={16} /> {service.highlight}
+                </p>
+              )}
 
               <Link to="/book" className="btn btn-primary">
                 {service.requiresConsultation ? 'Request a Consultation First' : 'Book Now'} <ArrowRight size={18} />

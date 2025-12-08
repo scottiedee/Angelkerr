@@ -167,10 +167,9 @@ function About() {
 
               <p>
                 Since childhood, Kerry has always been intrigued by the study of canine 
-                behaviour. She has assisted Angel with completing Canine board and train 
-                programs. As the years passed by, her desire for obtaining her Canine Trainer 
-                certification has grown immensely. She is currently pursuing her training and 
-                aspires to be a CCPDT Certified Canine Trainer.
+                behaviour. She has been <strong>actively professionally training for 5 years</strong> and 
+                specializes in our <strong>Board and Train program</strong>. Kerry aspires to 
+                become a <strong>service dog trainer</strong>.
               </p>
 
               <div className="credentials">
