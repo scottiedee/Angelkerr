@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Services from './pages/Services'
 import About from './pages/About'
 import Book from './pages/Book'
+import Shop from './pages/Shop'
 import Admin from './pages/Admin'
 import './App.css'
 
@@ -20,6 +21,7 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/about" element={<About />} />
+          <Route path="/shop" element={<Shop />} />
           <Route path="/book" element={<Book />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
