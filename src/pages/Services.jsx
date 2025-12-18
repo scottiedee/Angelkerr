@@ -8,8 +8,8 @@ import {
 import './Services.css'
 
 const allImages = [
-  '/images/IMG_0437.jpg', '/images/IMG_0441.jpg', '/images/IMG_0546.jpg',
-  '/images/IMG_0547.jpg', '/images/IMG_1461.jpg', '/images/IMG_1482.jpg',
+  '/images/IMG_0437.jpg', '/images/IMG_0441.jpg',
+  '/images/IMG_1461.jpg', '/images/IMG_1482.jpg',
   '/images/IMG_1657.jpg', '/images/IMG_1660.jpg', '/images/IMG_1673.jpg',
 ]
 
