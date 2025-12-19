@@ -42,6 +42,8 @@
   height: 200%;
   background: radial-gradient(circle, rgba(196, 112, 75, 0.15) 0%, transparent 50%);
   animation: shimmer 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
 }
 
 @keyframes shimmer {
@@ -132,6 +134,9 @@
   font-weight: 700;
   text-decoration: none;
   padding: 1rem 2.5rem;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
 }
 
 .promo-btn:hover {

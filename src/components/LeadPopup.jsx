@@ -9,7 +9,7 @@ function LeadPopup() {
 
   useEffect(() => {
     // Check if user already saw the popup
-    const hasSeenPopup = localStorage.getItem('angelkerr_promo_jan2025')
+    const hasSeenPopup = localStorage.getItem('angelkerr_promo_jan2025_v2')
     if (hasSeenPopup) return
 
     // Show popup after 3 seconds
@@ -22,7 +22,7 @@ function LeadPopup() {
 
   const handleClose = () => {
     setIsOpen(false)
-    localStorage.setItem('angelkerr_promo_jan2025', 'true')
+    localStorage.setItem('angelkerr_promo_jan2025_v2', 'true')
   }
 
   return (
