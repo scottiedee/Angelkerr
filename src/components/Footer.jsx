@@ -73,13 +73,14 @@ function Footer() {
 
           {/* Hours */}
           <div className="footer-section">
-            <h4>Business Hours</h4>
+            <h4>Phone Consultation Hours</h4>
             <div className="footer-hours">
-              <span>Mon - Fri: 10:30AM - 7:00PM</span>
-              <span>Saturday: 12:00PM - 6:00PM</span>
-              <span>Sunday: Closed</span>
+              <span>Mon - Wed: 11:00AM - 7:00PM</span>
+              <span>Thu - Fri: 1:00PM - 4:00PM & 7:00PM - 8:00PM</span>
+              <span>Saturday: 11:00AM - 2:00PM</span>
+              <span>Sunday: 11:00AM only</span>
               <span className="booking-hours">
-                <Clock size={14} /> Call-in Booking: 9AM-9PM Daily
+                <Clock size={14} /> Phone Consultations: Mon-Wed 11AM-7PM · Thu-Fri 1PM-4PM & 7PM-8PM · Sat 11AM-2PM · Sun 11AM only
               </span>
             </div>
           </div>

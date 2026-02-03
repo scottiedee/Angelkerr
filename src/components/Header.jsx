@@ -25,7 +25,7 @@ function Header() {
             <span>647-528-9442</span>
           </a>
           <span className="top-bar-tagline">"WE KERR FOR YOUR ANGELS"</span>
-          <span className="top-bar-hours">Mon-Fri: 10:30AM-7PM</span>
+          <span className="top-bar-hours">Mon-Wed: 11AM-7PM · Thu-Fri: 1PM-4PM & 7PM-8PM</span>
         </div>
       </div>
 

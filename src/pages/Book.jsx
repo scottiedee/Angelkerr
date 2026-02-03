@@ -16,10 +16,21 @@ const services = [
   { id: 'boarding', name: 'Boarding Inquiry', duration: '30 min', desc: 'Plan a comfortable stay for your furry friend' },
 ]
 
-const timeSlots = [
-  '10:30 AM', '11:30 AM', '12:30 PM', '1:30 PM', 
-  '2:30 PM', '3:30 PM', '4:30 PM', '5:30 PM'
-]
+const timeSlotsByDay = {
+  0: ['11:00 AM'], // Sunday
+  1: ['11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM'], // Monday
+  2: ['11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM'], // Tuesday
+  3: ['11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM'], // Wednesday
+  4: ['1:00 PM', '2:00 PM', '3:00 PM', '7:00 PM'], // Thursday
+  5: ['1:00 PM', '2:00 PM', '3:00 PM', '7:00 PM'], // Friday
+  6: ['11:00 AM', '12:00 PM', '1:00 PM'], // Saturday
+}
+
+const getTimeSlotsForDate = (date) => {
+  if (!date) return []
+  const dayOfWeek = date.getDay()
+  return timeSlotsByDay[dayOfWeek] || []
+}
 
 const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate()
 const getFirstDayOfMonth = (year, month) => new Date(year, month, 1).getDay()
@@ -61,13 +72,13 @@ function Book() {
       const date = new Date(currentYear, currentMonth, day)
       const dayOfWeek = date.getDay()
       const isPast = date < minDate
-      const isSunday = dayOfWeek === 0
-      
+      const daySlots = timeSlotsByDay[dayOfWeek] || []
+
       days.push({
         day,
         date,
-        disabled: isPast || isSunday,
-        isSunday
+        disabled: isPast || daySlots.length === 0,
+        isSunday: dayOfWeek === 0
       })
     }
     
@@ -256,7 +267,7 @@ function Book() {
             >
               <h2><span>2</span> Choose Date & Time</h2>
               <p className="step-note">
-                <AlertCircle size={16} /> Bookings must be at least 1 week in advance. Closed Sundays.
+                <AlertCircle size={16} /> Bookings must be at least 1 week in advance. Sunday 11 AM only.
               </p>
               
               <div className="datetime-grid">
@@ -299,7 +310,7 @@ function Book() {
                   <h3><Clock size={18} /> Available Times</h3>
                   {selectedDate ? (
                     <div className="slots-grid">
-                      {timeSlots.map(time => (
+                      {getTimeSlotsForDate(selectedDate).map(time => (
                         <button
                           key={time}
                           type="button"
@@ -457,7 +468,7 @@ function Book() {
                 <Mail size={18} /> Email Us
               </a>
             </div>
-            <p className="contact-hours">Booking hours: 9AM - 9PM Daily</p>
+            <p className="contact-hours">Phone consultation hours: Mon-Wed 11AM-7PM · Thu-Fri 1PM-4PM & 7PM-8PM · Sat 11AM-2PM · Sun 11AM only</p>
           </motion.div>
         </div>
       </section>

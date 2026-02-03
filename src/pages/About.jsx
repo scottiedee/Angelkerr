@@ -298,14 +298,15 @@ function About() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              <h3>Business Hours</h3>
+              <h3>Phone Consultation Hours</h3>
               <div className="hours-list">
-                <div><span>Monday - Friday</span><span>10:30 AM - 7:00 PM</span></div>
-                <div><span>Saturday</span><span>12:00 PM - 6:00 PM</span></div>
-                <div><span>Sunday</span><span>Closed</span></div>
+                <div><span>Monday - Wednesday</span><span>11:00 AM - 7:00 PM</span></div>
+                <div><span>Thursday - Friday</span><span>1:00 PM - 4:00 PM & 7:00 PM - 8:00 PM</span></div>
+                <div><span>Saturday</span><span>11:00 AM - 2:00 PM</span></div>
+                <div><span>Sunday</span><span>11:00 AM only</span></div>
               </div>
               <p className="booking-note">
-                <strong>Call-in Booking Hours:</strong> 9AM - 9PM Daily
+                <strong>Phone Consultations:</strong> Mon-Wed 11AM-7PM · Thu-Fri 1PM-4PM & 7PM-8PM · Sat 11AM-2PM · Sun 11AM only
               </p>
             </motion.div>
 
