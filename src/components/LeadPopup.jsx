@@ -54,20 +54,20 @@ function LeadPopup() {
               <Sparkles size={40} />
             </div>
             
-            <span className="promo-badge">Limited Time Offer</span>
+            <span className="promo-badge">Summer Discount</span>
             
             <h2 className="promo-headline">
               <span className="promo-percent">30% OFF</span>
-              All Services
+              In-Home Training
             </h2>
             
             <p className="promo-expires">
               <Calendar size={18} />
-              Offer valid until <strong>January 31st, 2025</strong>
+              Offer valid through <strong>Summer 2026</strong>
             </p>
 
             <p className="promo-desc">
-              Spring Sale: 30% off all our in home training packages.
+              Summer Discount: 30% off all our in-home training packages.
             </p>
 
             <Link to="/book" className="popup-submit promo-btn" onClick={handleClose}>
