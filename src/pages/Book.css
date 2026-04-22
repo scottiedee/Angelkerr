@@ -380,6 +380,12 @@
   margin-bottom: 0.5rem;
 }
 
+.quick-note {
+  font-size: 0.9rem;
+  color: var(--color-sage-dark);
+  margin-bottom: 0.5rem;
+}
+
 .contact-alternative > p {
   color: var(--color-text-light);
   margin-bottom: 1rem;

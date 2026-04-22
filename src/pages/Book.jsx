@@ -535,6 +535,7 @@ function Book() {
             viewport={{ once: true }}
           >
             <h3>Prefer to Chat?</h3>
+            <p className="quick-note">Quick note: spring bookings are filling up fast.</p>
             <p>We're happy to answer your questions directly!</p>
             <div className="contact-options">
               <a href="tel:647-528-9442">
