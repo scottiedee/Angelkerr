@@ -67,8 +67,7 @@ function LeadPopup() {
             </p>
 
             <p className="promo-desc">
-              Start the new year with a well-trained pup! Book now and save on training, 
-              boarding, and all our services.
+              Spring Sale: 30% off all our in home training packages.
             </p>
 
             <Link to="/book" className="popup-submit promo-btn" onClick={handleClose}>

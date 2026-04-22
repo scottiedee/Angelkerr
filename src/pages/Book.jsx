@@ -1,10 +1,10 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
   Calendar, Clock, Phone, Mail, 
   ChevronLeft, ChevronRight, CheckCircle, AlertCircle, Loader
 } from 'lucide-react'
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { collection, addDoc, serverTimestamp, onSnapshot, query, getDocs, where } from 'firebase/firestore'
 import { db } from '../firebase'
 import './Book.css'
 
@@ -34,6 +34,15 @@ const getTimeSlotsForDate = (date) => {
 
 const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate()
 const getFirstDayOfMonth = (year, month) => new Date(year, month, 1).getDay()
+const holidayMonthDays = new Set(['01-01', '07-01', '12-25', '12-26'])
+
+const formatMonthDay = (date) =>
+  `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+
+const getDateKey = (date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+
+const isHoliday = (date) => holidayMonthDays.has(formatMonthDay(date))
 
 function Book() {
   const [minDate] = useState(() => {
@@ -53,9 +62,43 @@ function Book() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [bookedSlotsByDate, setBookedSlotsByDate] = useState({})
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December']
+
+  useEffect(() => {
+    const bookingsQuery = query(collection(db, 'bookings'))
+    const unsubscribe = onSnapshot(bookingsQuery, (snapshot) => {
+      const nextBookedSlotsByDate = {}
+
+      snapshot.forEach((bookingDoc) => {
+        const booking = bookingDoc.data()
+        if (!booking?.date || !booking?.time || booking.status === 'cancelled') return
+
+        const bookingDate = new Date(booking.date)
+        const dateKey = getDateKey(bookingDate)
+
+        if (!nextBookedSlotsByDate[dateKey]) {
+          nextBookedSlotsByDate[dateKey] = new Set()
+        }
+        nextBookedSlotsByDate[dateKey].add(booking.time)
+      })
+
+      setBookedSlotsByDate(nextBookedSlotsByDate)
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+  const selectedDateKey = selectedDate ? getDateKey(selectedDate) : null
+  const unavailableTimes = selectedDateKey ? bookedSlotsByDate[selectedDateKey] || new Set() : new Set()
+
+  useEffect(() => {
+    if (selectedTime && unavailableTimes.has(selectedTime)) {
+      setSelectedTime(null)
+    }
+  }, [selectedTime, unavailableTimes])
 
   const calendarDays = useMemo(() => {
     const days = []
@@ -73,17 +116,19 @@ function Book() {
       const dayOfWeek = date.getDay()
       const isPast = date < minDate
       const daySlots = timeSlotsByDay[dayOfWeek] || []
+      const dateKey = getDateKey(date)
+      const allSlotsTaken = daySlots.length > 0 && (bookedSlotsByDate[dateKey]?.size || 0) >= daySlots.length
 
       days.push({
         day,
         date,
-        disabled: isPast || daySlots.length === 0,
+        disabled: isPast || isHoliday(date) || daySlots.length === 0 || allSlotsTaken,
         isSunday: dayOfWeek === 0
       })
     }
     
     return days
-  }, [currentMonth, currentYear, minDate])
+  }, [currentMonth, currentYear, minDate, bookedSlotsByDate])
 
   const prevMonth = () => {
     if (currentMonth === 0) {
@@ -135,6 +180,16 @@ function Book() {
       setError('Please select a service, date, and time')
       return
     }
+
+    if (isHoliday(selectedDate)) {
+      setError('We are closed on holidays. Please pick a different date.')
+      return
+    }
+
+    if (unavailableTimes.has(selectedTime)) {
+      setError('That time is no longer available. Please choose another slot.')
+      return
+    }
     
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.dogName) {
       setError('Please fill in all required fields')
@@ -144,11 +199,31 @@ function Book() {
     setLoading(true)
 
     try {
+      const selectedDateIso = selectedDate.toISOString()
+
+      // Final conflict check before saving to avoid double bookings.
+      const sameDateQuery = query(
+        collection(db, 'bookings'),
+        where('date', '==', selectedDateIso)
+      )
+      const sameDateSnapshot = await getDocs(sameDateQuery)
+      const hasConflict = sameDateSnapshot.docs.some((bookingDoc) => {
+        const booking = bookingDoc.data()
+        return booking.time === selectedTime && booking.status !== 'cancelled'
+      })
+
+      if (hasConflict) {
+        setError('That time has just been booked. Please pick another time.')
+        setLoading(false)
+        setSelectedTime(null)
+        return
+      }
+
       // Save booking to Firebase
       await addDoc(collection(db, 'bookings'), {
         service: selectedService,
         serviceName: services.find(s => s.id === selectedService)?.name,
-        date: selectedDate.toISOString(),
+        date: selectedDateIso,
         dateFormatted: formatSelectedDate(),
         time: selectedTime,
         firstName: formData.firstName,
@@ -267,7 +342,7 @@ function Book() {
             >
               <h2><span>2</span> Choose Date & Time</h2>
               <p className="step-note">
-                <AlertCircle size={16} /> Bookings must be at least 1 week in advance. Sunday 11 AM only.
+                <AlertCircle size={16} /> Bookings must be at least 1 week in advance. Holidays are unavailable.
               </p>
               
               <div className="datetime-grid">
@@ -314,10 +389,11 @@ function Book() {
                         <button
                           key={time}
                           type="button"
-                          className={`time-slot ${selectedTime === time ? 'selected' : ''}`}
-                          onClick={() => setSelectedTime(time)}
+                          className={`time-slot ${selectedTime === time ? 'selected' : ''} ${unavailableTimes.has(time) ? 'disabled' : ''}`}
+                          onClick={() => !unavailableTimes.has(time) && setSelectedTime(time)}
+                          disabled={unavailableTimes.has(time)}
                         >
-                          {time}
+                          {time} {unavailableTimes.has(time) ? '(Unavailable)' : ''}
                         </button>
                       ))}
                     </div>
