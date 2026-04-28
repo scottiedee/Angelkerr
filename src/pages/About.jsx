@@ -7,6 +7,7 @@ import './About.css'
 const images = {
   angel: '/images/angel.avif',
   kerry: '/images/kerry.avif',
+  paul: '/paul.png',
   luna: '/images/IMG_8129.jpg',
   leo: '/images/IMG_2257.jpg',
 }
@@ -182,6 +183,53 @@ function About() {
               <p className="team-quote">
                 "Kerry and Angel eagerly anticipate caring for all your furry friends in 
                 their inviting pet oasis!"
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Paul */}
+      <section className="team-section">
+        <div className="container">
+          <div className="team-grid">
+            <motion.div
+              className="team-image"
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <img src={images.paul} alt="Paul" />
+              <span className="team-badge">Canine Adventure Guide</span>
+            </motion.div>
+
+            <motion.div
+              className="team-content"
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="team-meet-headline">🐾 Meet Paul — Professional Canine Adventure Guide</h2>
+
+              <p>
+                Paul is a lifelong animal lover with a strong passion for caring for animals of all kinds.
+                Having grown up around dogs — especially Great Danes — he developed an early understanding
+                of canine behavior, enrichment, and companionship. His love for animals extends beyond
+                dogs to cats, reptiles, birds, rabbits, and more.
+              </p>
+
+              <p>
+                Paul and his wife currently share their home with their beloved dog Nugget, a Coonhound
+                and Labrador Retriever mix. As a valued member of the AngelKerr Dog Training &amp; Pet
+                Services team, Paul specializes in structured canine adventure group walks and puppy
+                socialization experiences designed to provide dogs with safe exercise, mental
+                stimulation, confidence-building opportunities, and positive social interactions.
+              </p>
+
+              <p>
+                Known for his calm, dependable, and compassionate nature, Paul treats every dog in his
+                care like family and is dedicated to creating enriching and positive experiences for every
+                furry companion he works with.
               </p>
             </motion.div>
           </div>
