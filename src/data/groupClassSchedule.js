@@ -41,15 +41,15 @@ export const GROUP_CLASS_SCHEDULE = [
     ],
   },
   {
+    date: '2026-07-25',
+    sessions: [{ program: 'Puppy Group 101', time: '12:00 PM – 1:00 PM', slot: 'main' }],
+  },
+  {
     date: '2026-08-01',
     sessions: [{ program: 'Puppy Group 101', time: '12:00 PM – 1:00 PM', slot: 'main' }],
   },
   {
     date: '2026-08-08',
-    sessions: [{ program: 'Puppy Group 101', time: '12:00 PM – 1:00 PM', slot: 'main' }],
-  },
-  {
-    date: '2026-08-15',
     sessions: [{ program: 'Puppy Group 101', time: '12:00 PM – 1:00 PM', slot: 'main' }],
   },
   {
