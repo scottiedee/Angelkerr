@@ -1,13 +1,19 @@
 import { useState, useMemo, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { 
   Calendar, Clock, Phone, Mail, 
-  ChevronLeft, ChevronRight, CheckCircle, AlertCircle, Loader
+  ChevronLeft, ChevronRight, CheckCircle, AlertCircle, Loader, Users
 } from 'lucide-react'
-import { collection, addDoc, serverTimestamp, onSnapshot, query, getDocs, where } from 'firebase/firestore'
+import { collection, addDoc, serverTimestamp, query, getDocs, where } from 'firebase/firestore'
 import { db } from '../firebase'
-import { GROUP_CLASS_SCHEDULE, parseScheduleDate } from '../data/groupClassSchedule'
+import {
+  GROUP_CLASS_SCHEDULE,
+  parseScheduleDate,
+  findGroupClassSession,
+  formatScheduleDate,
+} from '../data/groupClassSchedule'
+import { useBookingAvailability } from '../hooks/useBookingAvailability'
 import './Book.css'
 
 const groupClassTimeSlots = ['10:00 AM', '12:00 PM', '4:00 PM']
@@ -53,9 +59,25 @@ const getDateKey = (date) =>
 
 const isHoliday = (date) => holidayMonthDays.has(formatMonthDay(date))
 
+const localDateToIso = (date) => {
+  const normalized = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0, 0)
+  return normalized.toISOString()
+}
+
 function Book() {
   const [searchParams] = useSearchParams()
-  const [groupProgram, setGroupProgram] = useState('')
+  const { bookedSessionKeys, bookedSlotsByDate } = useBookingAvailability()
+
+  const lockedGroupSession = useMemo(() => {
+    if (searchParams.get('service') !== 'group-training') return null
+    const program = searchParams.get('program')
+    const date = searchParams.get('date')
+    const time = searchParams.get('time')
+    if (!program || !date || !time) return null
+    return findGroupClassSession({ date, program, time })
+  }, [searchParams])
+
+  const isGroupClassBooking = Boolean(lockedGroupSession)
   const [minDate] = useState(() => {
     const today = new Date()
     return new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000) // 1 week from now
@@ -73,58 +95,25 @@ function Book() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [bookedSlotsByDate, setBookedSlotsByDate] = useState({})
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December']
 
   useEffect(() => {
-    const service = searchParams.get('service')
-    const program = searchParams.get('program')
-    const dateParam = searchParams.get('date')
-    const timeParam = searchParams.get('time')
+    if (!lockedGroupSession) return
 
-    if (service) setSelectedService(service)
-    if (program) setGroupProgram(program)
-
-    if (dateParam) {
-      const parsed = parseScheduleDate(dateParam)
-      if (!Number.isNaN(parsed.getTime())) {
-        setSelectedDate(parsed)
-        setCurrentMonth(parsed.getMonth())
-        setCurrentYear(parsed.getFullYear())
-      }
-    }
-
-    if (timeParam) setSelectedTime(timeParam)
-  }, [searchParams])
-
-  useEffect(() => {
-    const bookingsQuery = query(collection(db, 'bookings'))
-    const unsubscribe = onSnapshot(bookingsQuery, (snapshot) => {
-      const nextBookedSlotsByDate = {}
-
-      snapshot.forEach((bookingDoc) => {
-        const booking = bookingDoc.data()
-        if (!booking?.date || !booking?.time || booking.status === 'cancelled') return
-
-        const bookingDate = new Date(booking.date)
-        const dateKey = getDateKey(bookingDate)
-
-        if (!nextBookedSlotsByDate[dateKey]) {
-          nextBookedSlotsByDate[dateKey] = new Set()
-        }
-        nextBookedSlotsByDate[dateKey].add(booking.time)
-      })
-
-      setBookedSlotsByDate(nextBookedSlotsByDate)
-    })
-
-    return () => unsubscribe()
-  }, [])
+    setSelectedService('group-training')
+    setSelectedDate(parseScheduleDate(lockedGroupSession.scheduleDate))
+    setSelectedTime(lockedGroupSession.bookingTime)
+    setCurrentMonth(parseScheduleDate(lockedGroupSession.scheduleDate).getMonth())
+    setCurrentYear(parseScheduleDate(lockedGroupSession.scheduleDate).getFullYear())
+  }, [lockedGroupSession])
 
   const selectedDateKey = selectedDate ? getDateKey(selectedDate) : null
   const unavailableTimes = selectedDateKey ? bookedSlotsByDate[selectedDateKey] || new Set() : new Set()
+  const groupSessionTaken = lockedGroupSession
+    ? bookedSessionKeys.has(lockedGroupSession.sessionKey)
+    : false
 
   useEffect(() => {
     if (selectedTime && unavailableTimes.has(selectedTime)) {
@@ -192,6 +181,7 @@ function Book() {
   }
 
   const selectDate = (dayObj) => {
+    if (isGroupClassBooking) return
     if (!dayObj.disabled) {
       setSelectedDate(dayObj.date)
       setSelectedTime(null)
@@ -212,9 +202,21 @@ function Book() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+
+    if (isGroupClassBooking && !lockedGroupSession) {
+      setError('This class session is invalid. Please choose a class from the schedule.')
+      return
+    }
+
+    if (isGroupClassBooking && groupSessionTaken) {
+      setError('Sorry, this class spot was just taken. Please pick another session from the schedule.')
+      return
+    }
     
     if (!selectedDate || !selectedTime || !selectedService) {
-      setError('Please select a service, date, and time')
+      setError(isGroupClassBooking
+        ? 'Class details are missing. Please return to the schedule and try again.'
+        : 'Please select a service, date, and time')
       return
     }
 
@@ -223,7 +225,7 @@ function Book() {
       return
     }
 
-    if (unavailableTimes.has(selectedTime)) {
+    if (!isGroupClassBooking && unavailableTimes.has(selectedTime)) {
       setError('That time is no longer available. Please choose another slot.')
       return
     }
@@ -236,45 +238,91 @@ function Book() {
     setLoading(true)
 
     try {
-      const selectedDateIso = selectedDate.toISOString()
+      const selectedDateIso = isGroupClassBooking
+        ? localDateToIso(parseScheduleDate(lockedGroupSession.scheduleDate))
+        : localDateToIso(selectedDate)
 
-      // Final conflict check before saving to avoid double bookings.
-      const sameDateQuery = query(
-        collection(db, 'bookings'),
-        where('date', '==', selectedDateIso)
-      )
-      const sameDateSnapshot = await getDocs(sameDateQuery)
-      const hasConflict = sameDateSnapshot.docs.some((bookingDoc) => {
-        const booking = bookingDoc.data()
-        return booking.time === selectedTime && booking.status !== 'cancelled'
-      })
+      if (isGroupClassBooking) {
+        const sessionQuery = query(
+          collection(db, 'bookings'),
+          where('classSessionKey', '==', lockedGroupSession.sessionKey)
+        )
+        const sessionSnapshot = await getDocs(sessionQuery)
+        const sessionTaken = sessionSnapshot.docs.some(
+          (bookingDoc) => bookingDoc.data().status !== 'cancelled'
+        )
 
-      if (hasConflict) {
-        setError('That time has just been booked. Please pick another time.')
-        setLoading(false)
-        setSelectedTime(null)
-        return
+        if (sessionTaken) {
+          setError('Sorry, this class spot was just taken. Please pick another session from the schedule.')
+          setLoading(false)
+          return
+        }
+
+        await addDoc(collection(db, 'bookings'), {
+          bookingType: 'group-class',
+          service: 'group-training',
+          serviceName: 'Group Training',
+          bookedClass: lockedGroupSession.program,
+          groupProgram: lockedGroupSession.program,
+          classSlot: lockedGroupSession.slot,
+          classTimeDisplay: lockedGroupSession.timeDisplay,
+          classInstructor: lockedGroupSession.instructor,
+          scheduleDate: lockedGroupSession.scheduleDate,
+          classSessionKey: lockedGroupSession.sessionKey,
+          date: selectedDateIso,
+          dateFormatted: formatScheduleDate(lockedGroupSession.scheduleDate),
+          time: lockedGroupSession.bookingTime,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          dogName: formData.dogName,
+          dogBreed: formData.dogBreed,
+          dogAge: formData.dogAge,
+          message: formData.message,
+          status: 'pending',
+          createdAt: serverTimestamp(),
+        })
+      } else {
+        const sameDateQuery = query(
+          collection(db, 'bookings'),
+          where('date', '==', selectedDateIso)
+        )
+        const sameDateSnapshot = await getDocs(sameDateQuery)
+        const hasConflict = sameDateSnapshot.docs.some((bookingDoc) => {
+          const booking = bookingDoc.data()
+          return booking.time === selectedTime && booking.status !== 'cancelled'
+        })
+
+        if (hasConflict) {
+          setError('That time has just been booked. Please pick another time.')
+          setLoading(false)
+          setSelectedTime(null)
+          return
+        }
+
+        await addDoc(collection(db, 'bookings'), {
+          bookingType: 'consultation',
+          service: selectedService,
+          serviceName: services.find(s => s.id === selectedService)?.name,
+          bookedClass: null,
+          groupProgram: null,
+          classSessionKey: null,
+          date: selectedDateIso,
+          dateFormatted: formatSelectedDate(),
+          time: selectedTime,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          dogName: formData.dogName,
+          dogBreed: formData.dogBreed,
+          dogAge: formData.dogAge,
+          message: formData.message,
+          status: 'pending',
+          createdAt: serverTimestamp(),
+        })
       }
-
-      // Save booking to Firebase
-      await addDoc(collection(db, 'bookings'), {
-        service: selectedService,
-        serviceName: services.find(s => s.id === selectedService)?.name,
-        groupProgram: selectedService === 'group-training' ? groupProgram : null,
-        date: selectedDateIso,
-        dateFormatted: formatSelectedDate(),
-        time: selectedTime,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
-        dogName: formData.dogName,
-        dogBreed: formData.dogBreed,
-        dogAge: formData.dogAge,
-        message: formData.message,
-        status: 'pending', // pending, confirmed, cancelled
-        createdAt: serverTimestamp()
-      })
       
       setLoading(false)
       setSubmitted(true)
@@ -305,16 +353,31 @@ function Book() {
           >
             <CheckCircle className="confirmation-icon" />
             <h2>We Can't Wait to Meet You!</h2>
-            <p>Thank you, {formData.firstName}! Your consultation request has been received:</p>
+            <p>
+              Thank you, {formData.firstName}! Your{' '}
+              {isGroupClassBooking ? 'group class registration' : 'consultation request'} has been received:
+            </p>
             <div className="confirmation-details">
-              <p><strong>Service:</strong> {services.find(s => s.id === selectedService)?.name}</p>
-              {groupProgram && <p><strong>Class:</strong> {groupProgram}</p>}
-              <p><strong>Date:</strong> {formatSelectedDate()}</p>
-              <p><strong>Time:</strong> {selectedTime}</p>
+              {isGroupClassBooking && lockedGroupSession ? (
+                <>
+                  <p><strong>Class:</strong> {lockedGroupSession.program}</p>
+                  <p><strong>Date:</strong> {formatScheduleDate(lockedGroupSession.scheduleDate)}</p>
+                  <p><strong>Time:</strong> {lockedGroupSession.timeDisplay}</p>
+                  {lockedGroupSession.instructor && (
+                    <p><strong>Instructor:</strong> {lockedGroupSession.instructor}</p>
+                  )}
+                </>
+              ) : (
+                <>
+                  <p><strong>Service:</strong> {services.find(s => s.id === selectedService)?.name}</p>
+                  <p><strong>Date:</strong> {formatSelectedDate()}</p>
+                  <p><strong>Time:</strong> {selectedTime}</p>
+                </>
+              )}
               <p><strong>Dog:</strong> {formData.dogName}</p>
             </div>
             <p className="confirmation-note">
-              {selectedService === 'group-training'
+              {isGroupClassBooking
                 ? "We'll contact you within 24 hours to confirm your spot. Class deposits can be arranged through our website when we confirm your registration."
                 : "We'll contact you within 24 hours to confirm your appointment."}
             </p>
@@ -333,11 +396,19 @@ function Book() {
       <section className="page-hero">
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
-            <h1>{selectedService === 'group-training' ? 'Register for Group Class' : 'Book a Consultation'}</h1>
+            <h1>
+              {isGroupClassBooking
+                ? 'Register for Group Class'
+                : selectedService === 'group-training'
+                  ? 'Group Class Registration'
+                  : 'Book a Consultation'}
+            </h1>
             <p>
-              {selectedService === 'group-training'
-                ? 'Reserve your spot in an upcoming Saturday group class. Deposits can be collected online when we confirm your registration.'
-                : "Let's discuss your dog's needs and create a training plan together"}
+              {isGroupClassBooking
+                ? 'Complete your details below to reserve the class you selected.'
+                : selectedService === 'group-training'
+                  ? 'Choose a class from our schedule to register for a specific date and program.'
+                  : "Let's discuss your dog's needs and create a training plan together"}
             </p>
           </motion.div>
         </div>
@@ -347,7 +418,54 @@ function Book() {
       <section className="booking-section">
         <div className="container">
           <form onSubmit={handleSubmit} className="booking-form">
-            {/* Step 1: Service */}
+            {searchParams.get('service') === 'group-training' && !lockedGroupSession && (
+              <div className="error-message group-class-pick-message">
+                <AlertCircle size={18} />
+                <div>
+                  <p>Please pick a specific class from the calendar first.</p>
+                  <Link to="/schedule" className="btn btn-primary btn-sm">View Class Schedule</Link>
+                </div>
+              </div>
+            )}
+
+            {isGroupClassBooking && lockedGroupSession && (
+              <motion.div
+                className="form-step group-class-locked"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <h2><span>1</span> Your Class</h2>
+                {groupSessionTaken ? (
+                  <div className="error-message">
+                    <AlertCircle size={18} />
+                    This spot is no longer available.{' '}
+                    <Link to="/schedule">Choose another class</Link>
+                  </div>
+                ) : (
+                  <div className="group-class-summary-card">
+                    <Users className="group-class-summary-icon" />
+                    <div>
+                      <p className="group-class-summary-label">You are booking</p>
+                      <h3>{lockedGroupSession.program}</h3>
+                      <p>
+                        <Calendar size={16} />
+                        {formatScheduleDate(lockedGroupSession.scheduleDate)}
+                      </p>
+                      <p>
+                        <Clock size={16} />
+                        {lockedGroupSession.timeDisplay}
+                        {lockedGroupSession.instructor && ` · with ${lockedGroupSession.instructor}`}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                <p className="group-booking-note">
+                  Need a different class? <Link to="/schedule">Return to the schedule</Link>
+                </p>
+              </motion.div>
+            )}
+
+            {!isGroupClassBooking && (
             <motion.div 
               className="form-step"
               initial={{ opacity: 0, y: 20 }}
@@ -378,15 +496,14 @@ function Book() {
               </div>
               {selectedService === 'group-training' && (
                 <p className="group-booking-note">
-                  View the full <a href="/schedule">group class calendar</a> for all dates and programs.
-                  {groupProgram && (
-                    <> You are registering for <strong>{groupProgram}</strong>.</>
-                  )}
+                  Group classes must be booked from the calendar so we know your exact class and date.{' '}
+                  <Link to="/schedule">View class schedule</Link>
                 </p>
               )}
             </motion.div>
+            )}
 
-            {/* Step 2: Date & Time */}
+            {!isGroupClassBooking && (
             <motion.div 
               className="form-step"
               initial={{ opacity: 0, y: 20 }}
@@ -466,15 +583,15 @@ function Book() {
                 </div>
               )}
             </motion.div>
+            )}
 
-            {/* Step 3: Your Info */}
             <motion.div 
               className="form-step"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2><span>3</span> Your Information</h2>
+              <h2><span>{isGroupClassBooking ? '2' : '3'}</span> Your Information</h2>
               
               <div className="form-grid">
                 <div className="form-group">
@@ -570,14 +687,18 @@ function Book() {
               </div>
             )}
 
-            <button type="submit" className="btn btn-primary btn-lg submit-btn" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-primary btn-lg submit-btn"
+              disabled={loading || (isGroupClassBooking && groupSessionTaken) || (searchParams.get('service') === 'group-training' && !lockedGroupSession)}
+            >
               {loading ? (
                 <>
                   <Loader size={20} className="spin" /> Submitting...
                 </>
               ) : (
                 <>
-                  <Calendar size={20} /> {selectedService === 'group-training' ? 'Register Now' : 'Request Booking'}
+                  <Calendar size={20} /> {isGroupClassBooking ? 'Register Now' : 'Request Booking'}
                 </>
               )}
             </button>

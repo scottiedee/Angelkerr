@@ -233,6 +233,33 @@ export function getScheduleByMonth(fromDate = new Date()) {
   return [...byMonth.entries()].sort(([a], [b]) => a.localeCompare(b))
 }
 
+export function getClassSessionKey({ date, program, time }) {
+  return `${date}|${time}|${program}`
+}
+
+/** Resolve the exact calendar session the customer clicked (date + program + bookable time). */
+export function findGroupClassSession({ date, program, time }) {
+  const day = GROUP_CLASS_SCHEDULE.find((d) => d.date === date)
+  if (!day) return null
+
+  const session = day.sessions.find(
+    (s) => s.program === program && slotToBookingTime[s.slot] === time
+  )
+  if (!session) return null
+
+  const bookingTime = slotToBookingTime[session.slot]
+
+  return {
+    scheduleDate: date,
+    program: session.program,
+    slot: session.slot,
+    timeDisplay: session.time,
+    bookingTime,
+    instructor: session.instructor || null,
+    sessionKey: getClassSessionKey({ date, program: session.program, time: bookingTime }),
+  }
+}
+
 export function buildGroupClassBookUrl({ date, program, slot }) {
   const time = slotToBookingTime[slot]
   const params = new URLSearchParams({
@@ -240,6 +267,7 @@ export function buildGroupClassBookUrl({ date, program, slot }) {
     program,
     date,
     time,
+    slot,
   })
   return `/book?${params.toString()}`
 }

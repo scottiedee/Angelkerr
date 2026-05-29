@@ -10,7 +10,10 @@ import {
   formatScheduleDate,
   formatScheduleDateShort,
   buildGroupClassBookUrl,
+  getClassSessionKey,
+  slotToBookingTime,
 } from '../data/groupClassSchedule'
+import { useBookingAvailability } from '../hooks/useBookingAvailability'
 import './GroupClassSchedule.css'
 
 function GroupClassSchedule({
@@ -19,6 +22,7 @@ function GroupClassSchedule({
   hideFullCalendarLink = false,
   id = 'group-schedule',
 }) {
+  const { bookedSessionKeys } = useBookingAvailability()
   const scheduleByMonth = useMemo(() => getScheduleByMonth(new Date()), [])
 
   const displayMonths = useMemo(() => {
@@ -109,10 +113,24 @@ function GroupClassSchedule({
                     </header>
 
                     <ul className="schedule-sessions">
-                      {day.sessions.map((session) => (
+                      {day.sessions.map((session) => {
+                        const bookUrl = buildGroupClassBookUrl({
+                          date: day.date,
+                          program: session.program,
+                          slot: session.slot,
+                        })
+                        const bookingTime = slotToBookingTime[session.slot]
+                        const sessionKey = getClassSessionKey({
+                          date: day.date,
+                          program: session.program,
+                          time: bookingTime,
+                        })
+                        const isBooked = bookedSessionKeys.has(sessionKey)
+
+                        return (
                         <li
                           key={`${day.date}-${session.program}-${session.slot}`}
-                          className={`schedule-session schedule-session--${session.slot}`}
+                          className={`schedule-session schedule-session--${session.slot}${isBooked ? ' schedule-session--full' : ''}`}
                         >
                           <div className="schedule-session__info">
                             <span className="schedule-session__time">{session.time}</span>
@@ -120,19 +138,25 @@ function GroupClassSchedule({
                             {session.instructor === 'Paul' && (
                               <span className="schedule-session__instructor">with Paul</span>
                             )}
+                            {isBooked && (
+                              <span className="schedule-session__full">Spot reserved</span>
+                            )}
                           </div>
-                          <Link
-                            to={buildGroupClassBookUrl({
-                              date: day.date,
-                              program: session.program,
-                              slot: session.slot,
-                            })}
-                            className="btn btn-primary btn-sm schedule-session__cta"
-                          >
-                            Book Your Spot
-                          </Link>
+                          {isBooked ? (
+                            <span className="btn btn-sm schedule-session__cta schedule-session__cta--disabled">
+                              Full
+                            </span>
+                          ) : (
+                            <Link
+                              to={bookUrl}
+                              className="btn btn-primary btn-sm schedule-session__cta"
+                            >
+                              Book Your Spot
+                            </Link>
+                          )}
                         </li>
-                      ))}
+                        )
+                      })}
                     </ul>
                   </article>
                 ))}

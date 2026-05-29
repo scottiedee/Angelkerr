@@ -120,18 +120,46 @@ function Admin() {
     }
   }
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString, scheduleDate) => {
+    if (scheduleDate) {
+      try {
+        const [y, m, d] = scheduleDate.split('-').map(Number)
+        return new Date(y, m - 1, d).toLocaleDateString('en-US', {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        })
+      } catch {
+        return scheduleDate
+      }
+    }
     if (!dateString) return 'N/A'
     try {
-      return new Date(dateString).toLocaleDateString('en-US', {
+      const parsed = new Date(dateString)
+      return parsed.toLocaleDateString('en-US', {
         weekday: 'short',
         month: 'short',
         day: 'numeric',
-        year: 'numeric'
+        year: 'numeric',
       })
     } catch {
       return dateString
     }
+  }
+
+  const getBookingTitle = (booking) => {
+    if (booking.bookingType === 'group-class' || booking.bookedClass) {
+      return booking.bookedClass || booking.groupProgram || 'Group Class'
+    }
+    return booking.serviceName || 'Booking'
+  }
+
+  const getBookingSubtitle = (booking) => {
+    if (booking.bookingType === 'group-class' || booking.bookedClass) {
+      return 'Group Training · Saturday class'
+    }
+    return null
   }
 
   // Loading state
@@ -285,12 +313,28 @@ function Admin() {
                       >
                         {booking.status}
                       </span>
+                      {(booking.bookingType === 'group-class' || booking.bookedClass) && (
+                        <span className="booking-type-badge">Group Class</span>
+                      )}
                       <h3>{booking.firstName} {booking.lastName}</h3>
-                      <span className="booking-service">{booking.serviceName}</span>
+                      <span className="booking-service booking-service--primary">
+                        {getBookingTitle(booking)}
+                      </span>
+                      {getBookingSubtitle(booking) && (
+                        <span className="booking-service booking-service--muted">
+                          {getBookingSubtitle(booking)}
+                        </span>
+                      )}
                     </div>
                     <div className="booking-date-info">
-                      <span><Calendar size={16} /> {formatDate(booking.date)}</span>
-                      <span><Clock size={16} /> {booking.time}</span>
+                      <span>
+                        <Calendar size={16} />{' '}
+                        {formatDate(booking.date, booking.scheduleDate)}
+                      </span>
+                      <span>
+                        <Clock size={16} />{' '}
+                        {booking.classTimeDisplay || booking.time}
+                      </span>
                     </div>
                     {expandedBooking === booking.id ? (
                       <ChevronUp size={20} />
@@ -305,6 +349,24 @@ function Admin() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                     >
+                      {(booking.bookedClass || booking.groupProgram) && (
+                        <div className="booking-class-detail">
+                          <strong>Registered for</strong>
+                          <p className="booking-class-name">
+                            {booking.bookedClass || booking.groupProgram}
+                          </p>
+                          {booking.classTimeDisplay && (
+                            <p className="booking-class-meta">{booking.classTimeDisplay}</p>
+                          )}
+                          {booking.classInstructor && (
+                            <p className="booking-class-meta">Instructor: {booking.classInstructor}</p>
+                          )}
+                          {booking.scheduleDate && (
+                            <p className="booking-class-meta">Schedule date: {booking.scheduleDate}</p>
+                          )}
+                        </div>
+                      )}
+
                       <div className="details-grid">
                         <div className="detail-item">
                           <Phone size={16} />
