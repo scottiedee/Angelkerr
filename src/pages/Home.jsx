@@ -5,6 +5,7 @@ import {
   Dog, Award, Shield, Heart, Phone, ArrowRight, 
   MapPin, Star, Users, Calendar, Home as HomeIcon, Mail
 } from 'lucide-react'
+import GroupClassSchedule from '../components/GroupClassSchedule'
 import './Home.css'
 
 // Load Elfsight script for Google Reviews
@@ -209,6 +210,8 @@ function Home() {
           </motion.div>
         </div>
       </section>
+
+      <GroupClassSchedule upcomingLimit={4} id="schedule" />
 
       {/* Trainer Bio Section */}
       <section className="trainer-bio">

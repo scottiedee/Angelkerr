@@ -1,0 +1,19 @@
+.schedule-page .page-hero {
+  background: linear-gradient(135deg, var(--color-brown), var(--color-sage-dark));
+  color: white;
+  padding: 3.5rem 0;
+  text-align: center;
+}
+
+.schedule-page .page-hero h1 {
+  color: white;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  margin-bottom: 0.75rem;
+}
+
+.schedule-page .page-hero p {
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 560px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+}

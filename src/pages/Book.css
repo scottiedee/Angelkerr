@@ -26,6 +26,22 @@
   margin-bottom: 1.5rem;
 }
 
+.group-booking-note {
+  margin-top: 1rem;
+  padding: 0.875rem 1rem;
+  background: rgba(126, 200, 200, 0.12);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.group-booking-note a {
+  color: var(--color-sage-dark);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .form-step h2 span {
   width: 32px;
   height: 32px;

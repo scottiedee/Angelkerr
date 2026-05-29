@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { 
   Calendar, Clock, Phone, Mail, 
@@ -6,7 +7,12 @@ import {
 } from 'lucide-react'
 import { collection, addDoc, serverTimestamp, onSnapshot, query, getDocs, where } from 'firebase/firestore'
 import { db } from '../firebase'
+import { GROUP_CLASS_SCHEDULE, parseScheduleDate } from '../data/groupClassSchedule'
 import './Book.css'
+
+const groupClassTimeSlots = ['10:00 AM', '12:00 PM', '4:00 PM']
+
+const groupClassDateSet = new Set(GROUP_CLASS_SCHEDULE.map((d) => d.date))
 
 const services = [
   { id: 'consultation', name: 'Initial Consultation', duration: '30 min', desc: 'Free meet & greet to discuss your dog\'s needs' },
@@ -26,9 +32,12 @@ const timeSlotsByDay = {
   6: ['11:00 AM', '12:00 PM', '1:00 PM'], // Saturday
 }
 
-const getTimeSlotsForDate = (date) => {
+const getTimeSlotsForDate = (date, serviceId) => {
   if (!date) return []
   const dayOfWeek = date.getDay()
+  if (serviceId === 'group-training' && dayOfWeek === 6) {
+    return groupClassTimeSlots
+  }
   return timeSlotsByDay[dayOfWeek] || []
 }
 
@@ -45,6 +54,8 @@ const getDateKey = (date) =>
 const isHoliday = (date) => holidayMonthDays.has(formatMonthDay(date))
 
 function Book() {
+  const [searchParams] = useSearchParams()
+  const [groupProgram, setGroupProgram] = useState('')
   const [minDate] = useState(() => {
     const today = new Date()
     return new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000) // 1 week from now
@@ -66,6 +77,27 @@ function Book() {
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December']
+
+  useEffect(() => {
+    const service = searchParams.get('service')
+    const program = searchParams.get('program')
+    const dateParam = searchParams.get('date')
+    const timeParam = searchParams.get('time')
+
+    if (service) setSelectedService(service)
+    if (program) setGroupProgram(program)
+
+    if (dateParam) {
+      const parsed = parseScheduleDate(dateParam)
+      if (!Number.isNaN(parsed.getTime())) {
+        setSelectedDate(parsed)
+        setCurrentMonth(parsed.getMonth())
+        setCurrentYear(parsed.getFullYear())
+      }
+    }
+
+    if (timeParam) setSelectedTime(timeParam)
+  }, [searchParams])
 
   useEffect(() => {
     const bookingsQuery = query(collection(db, 'bookings'))
@@ -114,21 +146,26 @@ function Book() {
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(currentYear, currentMonth, day)
       const dayOfWeek = date.getDay()
-      const isPast = date < minDate
-      const daySlots = timeSlotsByDay[dayOfWeek] || []
       const dateKey = getDateKey(date)
+      const isPast = date < minDate
+      const isGroupDay = selectedService === 'group-training' && dayOfWeek === 6
+      const isScheduledGroupDay = isGroupDay && groupClassDateSet.has(dateKey)
+      const daySlots = getTimeSlotsForDate(date, selectedService)
       const allSlotsTaken = daySlots.length > 0 && (bookedSlotsByDate[dateKey]?.size || 0) >= daySlots.length
+
+      const noSlots = daySlots.length === 0
+      const groupOnlyBlocked = selectedService === 'group-training' && dayOfWeek === 6 && !isScheduledGroupDay
 
       days.push({
         day,
         date,
-        disabled: isPast || isHoliday(date) || daySlots.length === 0 || allSlotsTaken,
+        disabled: isPast || isHoliday(date) || noSlots || groupOnlyBlocked || allSlotsTaken,
         isSunday: dayOfWeek === 0
       })
     }
     
     return days
-  }, [currentMonth, currentYear, minDate, bookedSlotsByDate])
+  }, [currentMonth, currentYear, minDate, bookedSlotsByDate, selectedService])
 
   const prevMonth = () => {
     if (currentMonth === 0) {
@@ -223,6 +260,7 @@ function Book() {
       await addDoc(collection(db, 'bookings'), {
         service: selectedService,
         serviceName: services.find(s => s.id === selectedService)?.name,
+        groupProgram: selectedService === 'group-training' ? groupProgram : null,
         date: selectedDateIso,
         dateFormatted: formatSelectedDate(),
         time: selectedTime,
@@ -270,12 +308,15 @@ function Book() {
             <p>Thank you, {formData.firstName}! Your consultation request has been received:</p>
             <div className="confirmation-details">
               <p><strong>Service:</strong> {services.find(s => s.id === selectedService)?.name}</p>
+              {groupProgram && <p><strong>Class:</strong> {groupProgram}</p>}
               <p><strong>Date:</strong> {formatSelectedDate()}</p>
               <p><strong>Time:</strong> {selectedTime}</p>
               <p><strong>Dog:</strong> {formData.dogName}</p>
             </div>
             <p className="confirmation-note">
-              We'll contact you within 24 hours to confirm your appointment.
+              {selectedService === 'group-training'
+                ? "We'll contact you within 24 hours to confirm your spot. Class deposits can be arranged through our website when we confirm your registration."
+                : "We'll contact you within 24 hours to confirm your appointment."}
             </p>
             <a href="tel:647-528-9442" className="btn btn-primary">
               <Phone size={18} /> Call to Confirm Sooner
@@ -292,8 +333,12 @@ function Book() {
       <section className="page-hero">
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
-            <h1>Book a Consultation</h1>
-            <p>Let's discuss your dog's needs and create a training plan together</p>
+            <h1>{selectedService === 'group-training' ? 'Register for Group Class' : 'Book a Consultation'}</h1>
+            <p>
+              {selectedService === 'group-training'
+                ? 'Reserve your spot in an upcoming Saturday group class. Deposits can be collected online when we confirm your registration.'
+                : "Let's discuss your dog's needs and create a training plan together"}
+            </p>
           </motion.div>
         </div>
       </section>
@@ -331,6 +376,14 @@ function Book() {
                   </label>
                 ))}
               </div>
+              {selectedService === 'group-training' && (
+                <p className="group-booking-note">
+                  View the full <a href="/schedule">group class calendar</a> for all dates and programs.
+                  {groupProgram && (
+                    <> You are registering for <strong>{groupProgram}</strong>.</>
+                  )}
+                </p>
+              )}
             </motion.div>
 
             {/* Step 2: Date & Time */}
@@ -342,7 +395,10 @@ function Book() {
             >
               <h2><span>2</span> Choose Date & Time</h2>
               <p className="step-note">
-                <AlertCircle size={16} /> Bookings must be at least 1 week in advance. Holidays are unavailable.
+                <AlertCircle size={16} />
+                {selectedService === 'group-training'
+                  ? ' Group classes run on scheduled Saturdays only (see calendar). Bookings must be at least 1 week in advance.'
+                  : ' Bookings must be at least 1 week in advance. Holidays are unavailable.'}
               </p>
               
               <div className="datetime-grid">
@@ -385,7 +441,7 @@ function Book() {
                   <h3><Clock size={18} /> Available Times</h3>
                   {selectedDate ? (
                     <div className="slots-grid">
-                      {getTimeSlotsForDate(selectedDate).map(time => (
+                      {getTimeSlotsForDate(selectedDate, selectedService).map(time => (
                         <button
                           key={time}
                           type="button"
@@ -521,7 +577,7 @@ function Book() {
                 </>
               ) : (
                 <>
-                  <Calendar size={20} /> Request Booking
+                  <Calendar size={20} /> {selectedService === 'group-training' ? 'Register Now' : 'Request Booking'}
                 </>
               )}
             </button>

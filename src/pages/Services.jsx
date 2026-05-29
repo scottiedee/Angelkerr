@@ -5,6 +5,7 @@ import {
   Users, Star, Calendar, Home, CheckCircle, 
   ArrowRight, Award, Phone, MapPin
 } from 'lucide-react'
+import GroupClassSchedule from '../components/GroupClassSchedule'
 import './Services.css'
 
 const allImages = [
@@ -169,13 +170,23 @@ function Services() {
                 </p>
               )}
 
-              <Link to="/book" className="btn btn-primary">
-                {service.requiresConsultation ? 'Request a Consultation First' : 'Book Now'} <ArrowRight size={18} />
+              <Link
+                to={service.id === 'group-training' ? '/schedule' : '/book'}
+                className="btn btn-primary"
+              >
+                {service.id === 'group-training'
+                  ? 'View Class Schedule'
+                  : service.requiresConsultation
+                    ? 'Request a Consultation First'
+                    : 'Book Now'}{' '}
+                <ArrowRight size={18} />
               </Link>
             </motion.div>
           ))}
         </div>
       </section>
+
+      <GroupClassSchedule upcomingLimit={6} id="group-schedule" />
 
       {/* Coverage Area */}
       <section className="coverage-section">
