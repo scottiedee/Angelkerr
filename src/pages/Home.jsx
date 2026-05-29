@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
@@ -28,9 +28,32 @@ const allImages = [
 
 const shuffleArray = (arr) => [...arr].sort(() => Math.random() - 0.5)
 
+/** Portrait photos in a wide hero crop heavily with cover — use contain + blurred fill instead */
+function getHeroImageFit(imageWidth, imageHeight, containerWidth, containerHeight) {
+  if (!imageWidth || !imageHeight || !containerWidth || !containerHeight) return 'cover'
+  const imageAspect = imageWidth / imageHeight
+  const containerAspect = containerWidth / containerHeight
+  if (imageAspect < containerAspect) return 'contain'
+  return 'cover'
+}
+
 function Home() {
   const [heroIndex, setHeroIndex] = useState(0)
+  const [imageFits, setImageFits] = useState({})
+  const heroBgRef = useRef(null)
   const images = useMemo(() => shuffleArray(allImages), [])
+
+  const updateHeroImageFit = useCallback((index, img) => {
+    const container = heroBgRef.current
+    if (!container || !img?.naturalWidth) return
+    const fit = getHeroImageFit(
+      img.naturalWidth,
+      img.naturalHeight,
+      container.clientWidth,
+      container.clientHeight
+    )
+    setImageFits((prev) => (prev[index] === fit ? prev : { ...prev, [index]: fit }))
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => setHeroIndex(i => (i + 1) % images.length), 5000)
@@ -42,21 +65,55 @@ function Home() {
     loadElfsight()
   }, [])
 
+  useEffect(() => {
+    const container = heroBgRef.current
+    const img = container?.querySelector('.hero-slide-image')
+    if (img?.complete && img.naturalWidth) {
+      updateHeroImageFit(heroIndex, img)
+    }
+  }, [heroIndex, updateHeroImageFit])
+
+  useEffect(() => {
+    const onResize = () => {
+      const container = heroBgRef.current
+      const img = container?.querySelector('.hero-slide-image')
+      if (img?.complete && img.naturalWidth) {
+        updateHeroImageFit(heroIndex, img)
+      }
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [heroIndex, updateHeroImageFit])
+
   return (
     <div className="home">
       {/* Hero */}
       <section className="hero">
-        <div className="hero-bg">
+        <div className="hero-bg" ref={heroBgRef}>
           <AnimatePresence mode="wait">
-            <motion.img
+            <motion.div
               key={heroIndex}
-              src={images[heroIndex]}
-              alt="Dogs"
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
+              className="hero-slide"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
-            />
+            >
+              {(imageFits[heroIndex] ?? 'cover') === 'contain' && (
+                <img
+                  className="hero-slide-fill"
+                  src={images[heroIndex]}
+                  alt=""
+                  aria-hidden="true"
+                />
+              )}
+              <img
+                className={`hero-slide-image hero-slide-image--${imageFits[heroIndex] ?? 'cover'}`}
+                src={images[heroIndex]}
+                alt="Dogs at AngelKerr training"
+                onLoad={(e) => updateHeroImageFit(heroIndex, e.currentTarget)}
+              />
+            </motion.div>
           </AnimatePresence>
           <div className="hero-overlay" />
         </div>

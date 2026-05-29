@@ -17,9 +17,39 @@
   justify-content: center;
 }
 
-.hero-bg img {
+.hero-slide {
+  position: absolute;
+  inset: 0;
+}
+
+/* Soft fill behind portrait shots so the hero stays full without harsh zoom */
+.hero-slide-fill {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: blur(28px) saturate(1.05);
+  transform: scale(1.06);
+  pointer-events: none;
+}
+
+.hero-slide-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Landscape-friendly photos: fill hero, crop lightly, keep subjects in frame */
+.hero-slide-image--cover {
+  object-fit: cover;
+  object-position: center 38%;
+}
+
+/* Tall photos: show the full image; blurred layer fills the sides */
+.hero-slide-image--contain {
   object-fit: contain;
   object-position: center center;
 }
@@ -864,11 +894,8 @@
     inset: 0;
   }
   
-  .hero-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
+  .hero-slide-image--cover {
+    object-position: center 32%;
   }
   
   .hero-areas {
