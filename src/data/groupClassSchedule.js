@@ -23,15 +23,8 @@ export const SCHEDULE_META = {
 /** @type {{ date: string, sessions: { program: string, time: string, slot: 'social' | 'main' | 'secondary' }[] }[]} */
 export const GROUP_CLASS_SCHEDULE = [
   {
-    date: '2026-06-27',
-    sessions: [{ program: 'Puppy Socialization', time: '10:00 AM – 11:00 AM', slot: 'social', instructor: 'Paul' }],
-  },
-  {
     date: '2026-07-04',
-    sessions: [
-      { program: 'Puppy Socialization', time: '10:00 AM – 11:00 AM', slot: 'social', instructor: 'Paul' },
-      { program: 'Puppy Group 101', time: '12:00 PM – 1:00 PM', slot: 'main' },
-    ],
+    sessions: [{ program: 'Puppy Group 101', time: '12:00 PM – 1:00 PM', slot: 'main' }],
   },
   {
     date: '2026-07-11',
