@@ -5,7 +5,7 @@
 
 export const SCHEDULE_META = {
   title: '6-Month Group Class Calendar',
-  season: 'June 2026 – February 2027',
+  season: 'July 2026 – February 2027',
   vacation: { start: '2026-07-18', end: '2026-07-26', label: 'Vacation Break — July 18–26, 2026' },
   timeBlocks: [
     { id: 'social', label: 'Puppy Socialization with Paul', time: '10:00 AM – 11:00 AM', slot: '10:00 AM' },
@@ -84,6 +84,10 @@ export const GROUP_CLASS_SCHEDULE = [
       { program: 'Basic Fundamentals', time: '12:00 PM – 1:00 PM', slot: 'main' },
       { program: 'Mental Enrichment', time: '4:00 PM – 5:00 PM', slot: 'secondary' },
     ],
+  },
+  {
+    date: '2026-10-03',
+    sessions: [{ program: 'Puppy Socialization', time: '10:00 AM – 11:00 AM', slot: 'social', instructor: 'Paul' }],
   },
   {
     date: '2026-10-10',
